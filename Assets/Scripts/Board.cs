@@ -166,8 +166,6 @@ public class Board : MonoBehaviour
             tilemap.SetTile(tilePosition, null);
         }
     }
-
-    //very important, explain later please
     public bool IsValidPosition(Piece piece, Vector3Int position)
     {
         RectInt bounds = this.Bounds;
