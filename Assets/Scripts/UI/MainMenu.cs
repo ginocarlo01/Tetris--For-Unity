@@ -7,7 +7,14 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField]
     private string nextScene;
-    
+
+    private GameObject optionsUI;
+
+    private void Start()
+    {
+        InitUI();
+    }
+
     public void HandleStartButtonOnClickEvent()
     {
         SceneManager.LoadScene(nextScene);
@@ -15,11 +22,17 @@ public class MainMenu : MonoBehaviour
 
     public void HandleOptionsButtonOnClickEvent()
     {
-        //add a search for the object by its tag!
+        optionsUI.SetActive(!optionsUI.activeSelf);
     }
 
     public void HandleQuitButtonOnClickEvent()
     {
         Application.Quit();
+    }
+
+    private void InitUI()
+    {
+        optionsUI = GameObject.FindGameObjectWithTag("OptionsUI");
+        optionsUI.SetActive(false);
     }
 }

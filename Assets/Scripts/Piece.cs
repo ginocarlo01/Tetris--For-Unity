@@ -41,11 +41,7 @@ public class Piece : MonoBehaviour
 
         this.lockTime += Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Rotate(-1);
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             Rotate(1);
         }

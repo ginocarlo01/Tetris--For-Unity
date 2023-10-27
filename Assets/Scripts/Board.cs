@@ -14,6 +14,9 @@ public class Board : MonoBehaviour
     public Vector3Int holdPosition;
     public bool canSave;
 
+    [SerializeField]
+    private int upScore;
+
     public RectInt Bounds
     {
         get
@@ -229,6 +232,8 @@ public class Board : MonoBehaviour
 
     private void LineClear(int row)
     {
+        ScoreManager.instance.UpdateScore(upScore);
+
         RectInt bounds = this.Bounds;
 
         for (int col = bounds.xMin; col < bounds.xMax; col++)
