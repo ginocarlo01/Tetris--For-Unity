@@ -17,6 +17,12 @@ public class Board : MonoBehaviour
     [SerializeField]
     private int upScore;
 
+    [SerializeField]
+    private AudioClip cleanLineSFX;
+
+    [SerializeField]
+    private AudioClip dropPieceSFX;
+
     public RectInt Bounds
     {
         get
@@ -120,6 +126,8 @@ public class Board : MonoBehaviour
 
     public void SetNextPiece()
     {
+        SoundManager.instance.PlaySound(dropPieceSFX);
+
         //clear da next piece:
         if (nextPiece.cells != null)
         {
@@ -203,6 +211,7 @@ public class Board : MonoBehaviour
         {
             if (isLineFull(row))
             {
+                SoundManager.instance.PlaySound(cleanLineSFX);
                 LineClear(row);
             }
             else
