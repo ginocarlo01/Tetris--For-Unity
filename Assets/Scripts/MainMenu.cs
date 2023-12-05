@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField]
-    private string nextScene;
 
     private GameObject optionsUI;
 
@@ -15,9 +13,9 @@ public class MainMenu : MonoBehaviour
         InitUI();
     }
 
-    public void HandleStartButtonOnClickEvent()
+    public void HandleStartButtonOnClickEvent(string _scene)
     {
-        SceneManager.LoadScene(nextScene);
+        SceneManager.LoadScene(_scene);
     }
 
     public void HandleOptionsButtonOnClickEvent()
