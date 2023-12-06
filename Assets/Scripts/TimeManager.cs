@@ -24,6 +24,6 @@ public class TimeManager : MonoBehaviour
         int minutes = Mathf.FloorToInt(timer / 60);
         int seconds = Mathf.FloorToInt(timer % 60);
         string timeString = string.Format("{0:00}:{1:00}", minutes, seconds);
-        gameController.GetComponent<UIManager>().timerText.text = timeString;
+        gameController.GetComponent<UIManager>().timerText.text = "Timer: " + timeString;
     }
 }
