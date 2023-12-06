@@ -15,6 +15,25 @@ public class Piece : MonoBehaviour
     public float stepTime;
     private float lockTime;
 
+    [SerializeField]
+    private float moveDelay;
+    [SerializeField]
+    private float moveTimer = 0;
+    [SerializeField]
+    private bool canMove = true;
+
+    [SerializeField]
+    private float horizontal = 0;
+
+    [SerializeField]
+    private float vertical = 0;
+
+    [SerializeField]
+    private int horizontalInt = 0;
+
+    [SerializeField]
+    private int verticalInt = 0;
+
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
         this.board = board;
@@ -41,24 +60,68 @@ public class Piece : MonoBehaviour
 
         this.lockTime += Time.deltaTime;
 
+        moveTimer += Time.deltaTime;
+
+        if(moveTimer >= moveDelay)
+        {
+            moveTimer = 0;
+            if (!canMove)
+            {
+                canMove = true;
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             Rotate(1);
         }
+        
+        
+        horizontalInt = (int)(Input.GetAxis("Horizontal"));
+        verticalInt = (int)(Input.GetAxis("Vertical"));
 
-        if (Input.GetKeyDown(KeyCode.A))
+       
+
+        // Converte para inteiros
+        //horizontalInt = (int)Mathf.Ceil(horizontal);
+        //verticalInt = (int)Mathf.Ceil(vertical);
+        if (canMove && horizontalInt != 0)
         {
-            Move(Vector2Int.left);
+            Debug.Log("mova");
+            
+            // Chama a função Move com os valores arredondados e convertidos
+            Move(new Vector2Int(horizontalInt, verticalInt));
+
+
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+            
+
+        /*if (Input.GetKey(KeyCode.A))
         {
-            Move(Vector2Int.right);
+            if (canMove)
+            {
+                canMove = false;
+                Move(Vector2Int.left);
+            }
+            
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            if (canMove)
+            {
+                canMove = false;
+                Move(Vector2Int.right);
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKey(KeyCode.S))
         {
-            Move(Vector2Int.down);
-        }
+            if (canMove)
+            {
+                canMove = false;
+                Move(Vector2Int.down);
+            }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -105,7 +168,11 @@ public class Piece : MonoBehaviour
 
     private bool Move(Vector2Int translation)
     {
+        canMove = false;
+        moveTimer = 0;
+
         Vector3Int newPosition = this.position;
+        
         newPosition.x += translation.x;
         newPosition.y += translation.y;
 
