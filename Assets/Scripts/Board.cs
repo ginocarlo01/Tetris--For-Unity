@@ -23,6 +23,8 @@ public class Board : MonoBehaviour
     [SerializeField]
     private AudioClip dropPieceSFX;
 
+    private bool isPaused;
+
     public RectInt Bounds
     {
         get
@@ -49,6 +51,11 @@ public class Board : MonoBehaviour
         }
     }
 
+    public void ChangePauseState()
+    {
+        isPaused = !isPaused;
+    }
+
     private void Start()
     {
         SetNextPiece();
@@ -57,7 +64,11 @@ public class Board : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab) && canSave)
+
+        if (isPaused) { return; }
+
+
+        if (Input.GetButtonDown("Save") && canSave)
         {
             Swap();
         }

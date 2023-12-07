@@ -246,17 +246,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'AD / <- -> = move
-
-
-    down = speed up
-
-
-    space = hard drop
-
-
-    esc
-    = pause / play'
+  m_text: "<- -> / ad = move\ndown / s = speed up\nup / e = rotate\nspace = hard
+    drop\ntab / c = save \nesc = pause / play"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2468ce162cc0d374dac01a5f316c24fb, type: 2}
   m_sharedMaterial: {fileID: 1729643218199878624, guid: 2468ce162cc0d374dac01a5f316c24fb, type: 2}
@@ -265,8 +256,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 16777215
-  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

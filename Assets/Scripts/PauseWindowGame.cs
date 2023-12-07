@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
+public class PauseWindowGame : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject pauseUI;
+
+    [SerializeField]
     private Animator optionsUIAnim;
+
     private bool optionsWasPressed = false;
 
-    private void Start()
-    {
-        InitUI();
-    }
+    [SerializeField]
+    private Signal pauseSignal;
 
-    public void HandleStartButtonOnClickEvent(string _scene)
+    public void HandleStartButtonOnClickEvent()
     {
-        SceneManager.LoadScene(_scene);
+        pauseSignal.Raise();
     }
 
     public void HandleOptionsButtonOnClickEvent()
@@ -32,13 +35,14 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    public void HandleQuitButtonOnClickEvent()
+    public void HandleQuitButtonOnClickEvent(string _scene)
     {
-        Application.Quit();
+        SceneManager.LoadScene(_scene);
     }
 
-    private void InitUI()
+    public void HandlePause()
     {
-        optionsUIAnim = GameObject.FindGameObjectWithTag("OptionsUI").GetComponent<Animator>();
+        optionsWasPressed = false;
+        pauseUI.SetActive(!pauseUI.activeSelf);
     }
 }

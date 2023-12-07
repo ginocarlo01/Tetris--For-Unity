@@ -34,6 +34,8 @@ public class Piece : MonoBehaviour
     [SerializeField]
     private int verticalInt = 0;
 
+    private bool isPaused;
+
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
         this.board = board;
@@ -54,8 +56,15 @@ public class Piece : MonoBehaviour
         }
     }
 
+    public void ChangePauseState()
+    {
+        isPaused = !isPaused;
+    }
+
     private void Update()
     {
+        if (isPaused) { return; }
+
         this.board.Clear(this);
 
         this.lockTime += Time.deltaTime;
@@ -71,7 +80,7 @@ public class Piece : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetButtonDown("Rotate"))
         {
             Rotate(1);
         }
@@ -80,50 +89,13 @@ public class Piece : MonoBehaviour
         horizontalInt = (int)(Input.GetAxis("Horizontal"));
         verticalInt = (int)(Input.GetAxis("Vertical"));
 
-       
-
-        // Converte para inteiros
-        //horizontalInt = (int)Mathf.Ceil(horizontal);
-        //verticalInt = (int)Mathf.Ceil(vertical);
-        if (canMove && horizontalInt != 0)
+        if (canMove && horizontalInt != 0 || canMove && verticalInt != 0)
         {
-            Debug.Log("mova");
-            
-            // Chama a função Move com os valores arredondados e convertidos
             Move(new Vector2Int(horizontalInt, verticalInt));
 
-
         }
             
-
-        /*if (Input.GetKey(KeyCode.A))
-        {
-            if (canMove)
-            {
-                canMove = false;
-                Move(Vector2Int.left);
-            }
-            
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            if (canMove)
-            {
-                canMove = false;
-                Move(Vector2Int.right);
-            }
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            if (canMove)
-            {
-                canMove = false;
-                Move(Vector2Int.down);
-            }
-        }*/
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetButtonDown("Drop"))
         {
             HardDrop();
         }

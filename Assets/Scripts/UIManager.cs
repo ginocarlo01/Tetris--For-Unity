@@ -9,4 +9,18 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
 
     public TextMeshProUGUI timerText;
+
+    private bool isVisible;
+
+    private void Start()
+    {
+        Cursor.visible = isVisible;
+    }
+
+    public void UpdateCursor()
+    {
+        isVisible = !isVisible;
+        Cursor.visible = isVisible;
+    }
+
 }
