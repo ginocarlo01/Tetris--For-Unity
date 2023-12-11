@@ -6,6 +6,9 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
 
+    [SerializeField]
+    AudioClip  sadBgSong;
+
     [SerializeField] private AudioSource _musicSource, _effectsSource;
 
     private void Awake()
@@ -13,12 +16,22 @@ public class SoundManager : MonoBehaviour
         instance = this;
     }
 
+    
+
     public void PlaySound(AudioClip clip)
     {
         _effectsSource.PlayOneShot(clip);
     }
 
- 
+    
+
+    public void PlaySadBgSong()
+    {
+        _musicSource.Stop();
+        _musicSource.PlayOneShot(sadBgSong);
+    }
+
+
 
     public void ChangeMasterVolume(float value)
     {

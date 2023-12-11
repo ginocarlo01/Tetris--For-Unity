@@ -9,12 +9,17 @@ public class PauseWindowGame : MonoBehaviour
     private GameObject pauseUI;
 
     [SerializeField]
+    private GameObject gameOverUI;
+
+    [SerializeField]
     private Animator optionsUIAnim;
 
     private bool optionsWasPressed = false;
 
     [SerializeField]
     private Signal pauseSignal;
+
+    private bool gameLost;
 
     public void HandleStartButtonOnClickEvent()
     {
@@ -42,7 +47,20 @@ public class PauseWindowGame : MonoBehaviour
 
     public void HandlePause()
     {
-        optionsWasPressed = false;
-        pauseUI.SetActive(!pauseUI.activeSelf);
+        if (!gameLost)
+        {
+            optionsWasPressed = false;
+            pauseUI.SetActive(!pauseUI.activeSelf);
+        }
+        else
+        {
+            gameOverUI.SetActive(true);
+        }
+        
+    }
+
+    public void HandleGameOver()
+    {
+        gameLost = true;
     }
 }

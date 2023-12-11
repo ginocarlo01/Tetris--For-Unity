@@ -40,5 +40,8 @@ public class MainMenu : MonoBehaviour
     private void InitUI()
     {
         optionsUIAnim = GameObject.FindGameObjectWithTag("OptionsUI").GetComponent<Animator>();
+        Cursor.visible = true;
+        // Libera o cursor para se movimentar livremente
+        Cursor.lockState = CursorLockMode.None;
     }
 }

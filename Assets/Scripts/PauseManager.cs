@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PauseManager : MonoBehaviour
 {
-
+    
+        
     [SerializeField]
     private Signal pauseSignal;
 
@@ -12,6 +14,7 @@ public class PauseManager : MonoBehaviour
     {
         if (Input.GetButtonDown("Cancel"))
         {
+            
             pauseSignal.Raise();
 
         }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class Board : MonoBehaviour
 {
@@ -23,7 +24,17 @@ public class Board : MonoBehaviour
     [SerializeField]
     private AudioClip dropPieceSFX;
 
+    [SerializeField]
+    private AudioClip gameOverSFX;
+
+    [SerializeField]
+    private Signal gameOverSignal;
+
+    [SerializeField]
+    private Signal pauseSignal;
+
     private bool isPaused;
+
 
     public RectInt Bounds
     {
@@ -165,6 +176,15 @@ public class Board : MonoBehaviour
     private void GameOver()
     {
         this.tilemap.ClearAllTiles();
+
+        SoundManager.instance.PlaySound(gameOverSFX);
+
+        SoundManager.instance.PlaySadBgSong();
+
+        //dispara o sinal
+        gameOverSignal.Raise();
+
+        pauseSignal.Raise();
     }
 
     public void Set(Piece piece)
