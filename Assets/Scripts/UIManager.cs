@@ -8,6 +8,8 @@ public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
 
+    public TextMeshProUGUI maxScoreText;
+
     public TextMeshProUGUI timerText;
 
     private bool isVisible;

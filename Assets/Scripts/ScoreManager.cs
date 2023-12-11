@@ -15,6 +15,8 @@ public class ScoreManager : MonoBehaviour
         gameController = GameObject.FindGameObjectWithTag("GameController");
 
         UpdateScoreText();
+
+        UpdateMaxScoreText();
     }
 
     private void Awake()
@@ -33,5 +35,15 @@ public class ScoreManager : MonoBehaviour
     void UpdateScoreText()
     {
         gameController.GetComponent<UIManager>().scoreText.text = "Score : " + score;
+    }
+
+    void UpdateMaxScoreText()
+    {
+        gameController.GetComponent<UIManager>().maxScoreText.text = "Best: " + JsonReadWriteSystem.INSTANCE.playerData.maxScore;
+    }
+
+    public int GetScore()
+    {
+        return score;
     }
 }

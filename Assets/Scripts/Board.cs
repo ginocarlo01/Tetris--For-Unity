@@ -177,11 +177,17 @@ public class Board : MonoBehaviour
     {
         this.tilemap.ClearAllTiles();
 
+        if(ScoreManager.instance.GetScore() > JsonReadWriteSystem.INSTANCE.playerData.maxScore)
+        {
+            JsonReadWriteSystem.INSTANCE.playerData.maxScore = ScoreManager.instance.GetScore();
+        }
+
+        JsonReadWriteSystem.INSTANCE.Save();
+
         SoundManager.instance.PlaySound(gameOverSFX);
 
         SoundManager.instance.PlaySadBgSong();
 
-        //dispara o sinal
         gameOverSignal.Raise();
 
         pauseSignal.Raise();
