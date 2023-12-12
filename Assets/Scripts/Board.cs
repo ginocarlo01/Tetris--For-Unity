@@ -177,11 +177,6 @@ public class Board : MonoBehaviour
     {
         this.tilemap.ClearAllTiles();
 
-        if(ScoreManager.instance.GetScore() > JsonReadWriteSystem.INSTANCE.playerData.maxScore)
-        {
-            JsonReadWriteSystem.INSTANCE.playerData.maxScore = ScoreManager.instance.GetScore();
-        }
-
         JsonReadWriteSystem.INSTANCE.Save();
 
         SoundManager.instance.PlaySound(gameOverSFX);
@@ -191,6 +186,41 @@ public class Board : MonoBehaviour
         gameOverSignal.Raise();
 
         pauseSignal.Raise();
+
+        UIManager uiMan = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();
+
+        if (ScoreManager.instance.GetScore() > JsonReadWriteSystem.INSTANCE.playerData.maxScore)
+        {
+            JsonReadWriteSystem.INSTANCE.playerData.maxScore = ScoreManager.instance.GetScore();
+            
+            uiMan.resultsTxt.text = "New high score: " + ScoreManager.instance.GetScore().ToString() + ", congratulations!";
+            string hexColor = "#5D9300";
+            Color textColor;
+            if (ColorUtility.TryParseHtmlString(hexColor, out textColor))
+            {
+                // Assign the color to the text component
+                uiMan.resultsTxt.color = textColor;
+            }
+            else
+            {
+                Debug.LogError("Invalid hexadecimal color code: " + hexColor);
+            }
+        }
+        else
+        {
+            uiMan.resultsTxt.text = "You didn't get a new high score :(. Your best was: " + JsonReadWriteSystem.INSTANCE.playerData.maxScore.ToString();
+            string hexColor = "#EC483C";
+            Color textColor;
+            if (ColorUtility.TryParseHtmlString(hexColor, out textColor))
+            {
+                // Assign the color to the text component
+                uiMan.resultsTxt.color = textColor;
+            }
+            else
+            {
+                Debug.LogError("Invalid hexadecimal color code: " + hexColor);
+            }
+        }
     }
 
     public void Set(Piece piece)

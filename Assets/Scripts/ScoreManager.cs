@@ -6,13 +6,15 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;
 
-    private GameObject gameController;
+    private UIManager gameController;
 
     private int score;
 
+    private bool updatedHighScore;
+
     private void Start()
     {
-        gameController = GameObject.FindGameObjectWithTag("GameController");
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();
 
         UpdateScoreText();
 
@@ -28,18 +30,29 @@ public class ScoreManager : MonoBehaviour
     {
         this.score += newScore;
 
+        if(score > JsonReadWriteSystem.INSTANCE.playerData.maxScore && !updatedHighScore)
+        {
+            updatedHighScore = true;
+            UpdateHighScoreTxt();
+        }
+
         UpdateScoreText();
     }
 
 
     void UpdateScoreText()
     {
-        gameController.GetComponent<UIManager>().scoreText.text = "Score : " + score;
+        gameController.scoreText.text = "Score : " + score;
     }
 
     void UpdateMaxScoreText()
     {
-        gameController.GetComponent<UIManager>().maxScoreText.text = "Best: " + JsonReadWriteSystem.INSTANCE.playerData.maxScore;
+        gameController.maxScoreText.text = "Best: " + JsonReadWriteSystem.INSTANCE.playerData.maxScore;
+    }
+
+    void UpdateHighScoreTxt()
+    {
+        gameController.highScoreText.text = "New High Score";
     }
 
     public int GetScore()

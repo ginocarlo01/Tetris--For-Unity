@@ -23,6 +23,7 @@ public class PauseWindowGame : MonoBehaviour
 
     public void HandleStartButtonOnClickEvent()
     {
+        
         pauseSignal.Raise();
     }
 

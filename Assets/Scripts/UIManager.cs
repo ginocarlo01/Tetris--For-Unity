@@ -12,11 +12,17 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI timerText;
 
+    public TextMeshProUGUI highScoreText;
+
+    public TextMeshProUGUI resultsTxt;
+
     private bool isVisible;
 
     private void Start()
     {
         Cursor.visible = isVisible;
+        highScoreText.text = "";
+        resultsTxt.text = "";
     }
 
     public void UpdateCursor()
