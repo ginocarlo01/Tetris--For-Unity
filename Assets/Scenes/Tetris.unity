@@ -2634,6 +2634,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 374956448987982520, guid: 5d0da27fac08ebb449c54d85931db328, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 9e6a4fc5e214a4d46be363ce74ce7aa3, type: 2}
     - target: {fileID: 374956448987982521, guid: 5d0da27fac08ebb449c54d85931db328, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -4202,7 +4206,7 @@ GameObject:
   - component: {fileID: 2147024061}
   - component: {fileID: 2147024062}
   - component: {fileID: 2147024064}
-  - component: {fileID: 2147024063}
+  - component: {fileID: 2147024065}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -4307,19 +4311,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2147024063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2147024056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bac50db9c7da8a14abdabcf016bab176, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxScore: 0
 --- !u!114 &2147024064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4333,7 +4324,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: SaveFile
-  playerData: {fileID: 2147024063}
+  playerData: {fileID: 2147024065}
+--- !u!114 &2147024065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2147024056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac50db9c7da8a14abdabcf016bab176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxScore: 0
 --- !u!1 &305036899493367892
 GameObject:
   m_ObjectHideFlags: 0
@@ -4698,7 +4702,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &374956449108089382
 CanvasRenderer:
   m_ObjectHideFlags: 0

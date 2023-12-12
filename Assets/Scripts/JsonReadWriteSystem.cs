@@ -39,10 +39,7 @@ public class JsonReadWriteSystem : MonoBehaviour
 
        
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
+        
     }
 
     private void WriteToFile(string filename, string jsonData)
@@ -89,6 +86,7 @@ public class JsonReadWriteSystem : MonoBehaviour
         Debug.Log("Load done");
         string json = ReadFromFile(fileName);
         Debug.Log(fileName + " path " + GetFilePath(fileName));
+
         JsonUtility.FromJsonOverwrite(json, playerData);
 
     }

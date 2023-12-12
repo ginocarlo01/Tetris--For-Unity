@@ -177,7 +177,7 @@ public class Board : MonoBehaviour
     {
         this.tilemap.ClearAllTiles();
 
-        JsonReadWriteSystem.INSTANCE.Save();
+        
 
         SoundManager.instance.PlaySound(gameOverSFX);
 
@@ -221,6 +221,8 @@ public class Board : MonoBehaviour
                 Debug.LogError("Invalid hexadecimal color code: " + hexColor);
             }
         }
+
+        JsonReadWriteSystem.INSTANCE.Save();
     }
 
     public void Set(Piece piece)
