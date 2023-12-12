@@ -30,7 +30,7 @@ public class ScoreManager : MonoBehaviour
     {
         this.score += newScore;
 
-        if(score > JsonReadWriteSystem.INSTANCE.playerData.maxScore && !updatedHighScore)
+        if(score > JsonReadWriteSystem.INSTANCE.playerData.MaxScore && !updatedHighScore)
         {
             updatedHighScore = true;
             UpdateHighScoreTxt();
@@ -47,7 +47,7 @@ public class ScoreManager : MonoBehaviour
 
     void UpdateMaxScoreText()
     {
-        gameController.maxScoreText.text = "Best: " + JsonReadWriteSystem.INSTANCE.playerData.maxScore;
+        gameController.maxScoreText.text = "Best: " + JsonReadWriteSystem.INSTANCE.playerData.MaxScore;
     }
 
     void UpdateHighScoreTxt()

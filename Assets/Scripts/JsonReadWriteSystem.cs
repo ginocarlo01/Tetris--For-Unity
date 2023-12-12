@@ -24,7 +24,7 @@ public class JsonReadWriteSystem : MonoBehaviour
         INSTANCE = this;
 
         //DontDestroyOnLoad(gameObject);
-
+        playerData = new PlayerData();
         Load();
 
     }
@@ -75,26 +75,43 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     public void Save()
     {
-        string json = JsonUtility.ToJson(playerData);
+#if UNITY_WEBGL
 
-        WriteToFile(fileName, json);
+        // Se estiver no WebGL, use PlayerPrefs para salvar um único valor (exemplo: maxScore)
+        PlayerPrefs.SetInt("MaxScore", playerData.maxScore);
+        PlayerPrefs.Save();
+
+#else
+            // Se não estiver no WebGL, salve os dados como JSON em um arquivo
+            string json = JsonUtility.ToJson(playerData);
+            WriteToFile(fileName, json);
+#endif
+
 
     }
 
     public void Load()
     {
+#if UNITY_WEBGL
+        if (PlayerPrefs.HasKey("MaxScore"))
+        {
+            playerData.maxScore = PlayerPrefs.GetInt("MaxScore");
+        }
+#else
         Debug.Log("Load done");
         string json = ReadFromFile(fileName);
         Debug.Log(fileName + " path " + GetFilePath(fileName));
 
         JsonUtility.FromJsonOverwrite(json, playerData);
+#endif
+
 
     }
 
     public void ResetData()
     {
-        playerData.maxScore = 0;
-        
+        playerData.MaxScore = 0;
+
         Save();
     }
 

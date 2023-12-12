@@ -189,9 +189,9 @@ public class Board : MonoBehaviour
 
         UIManager uiMan = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();
 
-        if (ScoreManager.instance.GetScore() > JsonReadWriteSystem.INSTANCE.playerData.maxScore)
+        if (ScoreManager.instance.GetScore() > JsonReadWriteSystem.INSTANCE.playerData.MaxScore)
         {
-            JsonReadWriteSystem.INSTANCE.playerData.maxScore = ScoreManager.instance.GetScore();
+            JsonReadWriteSystem.INSTANCE.playerData.MaxScore = ScoreManager.instance.GetScore();
             
             uiMan.resultsTxt.text = "New high score: " + ScoreManager.instance.GetScore().ToString() + ", congratulations!";
             string hexColor = "#5D9300";
@@ -208,7 +208,7 @@ public class Board : MonoBehaviour
         }
         else
         {
-            uiMan.resultsTxt.text = "You didn't get a new high score :(. Your best was: " + JsonReadWriteSystem.INSTANCE.playerData.maxScore.ToString();
+            uiMan.resultsTxt.text = "You didn't get a new high score :(. Your best was: " + JsonReadWriteSystem.INSTANCE.playerData.MaxScore.ToString();
             string hexColor = "#EC483C";
             Color textColor;
             if (ColorUtility.TryParseHtmlString(hexColor, out textColor))
