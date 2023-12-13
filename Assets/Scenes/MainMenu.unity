@@ -150,9 +150,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 90eae78e8ce85a849b5b0ca11b2de641, type: 3}
+  m_audioClip: {fileID: 8300000, guid: a7184b8dc260636498031577c79dcf1f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.086
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 569416896}
   - component: {fileID: 569416895}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: TransitionManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

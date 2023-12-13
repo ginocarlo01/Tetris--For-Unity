@@ -22,6 +22,9 @@ public class Board : MonoBehaviour
     private AudioClip cleanLineSFX;
 
     [SerializeField]
+    private AudioClip cleanTetrisSFX;
+
+    [SerializeField]
     private AudioClip dropPieceSFX;
 
     [SerializeField]
@@ -273,6 +276,7 @@ public class Board : MonoBehaviour
     {
         RectInt bounds = this.Bounds;
         int row;
+        int rowsCleaned = 0;
 
         row = bounds.yMin;
 
@@ -280,7 +284,8 @@ public class Board : MonoBehaviour
         {
             if (isLineFull(row))
             {
-                SoundManager.instance.PlaySound(cleanLineSFX);
+                rowsCleaned++;
+                
                 LineClear(row);
             }
             else
@@ -288,7 +293,21 @@ public class Board : MonoBehaviour
                 row++;
             }
         }
+        if(rowsCleaned > 0)
+        {
+            if (rowsCleaned < 4)
+            {
 
+                ScoreManager.instance.UpdateScore(upScore * rowsCleaned);
+                SoundManager.instance.PlaySound(cleanLineSFX);
+            }
+            else
+            {
+                ScoreManager.instance.UpdateScore(upScore * 6);
+                SoundManager.instance.PlaySound(cleanTetrisSFX);
+            }
+        }
+        
     }
 
     private bool isLineFull(int row)
@@ -310,7 +329,6 @@ public class Board : MonoBehaviour
 
     private void LineClear(int row)
     {
-        ScoreManager.instance.UpdateScore(upScore);
 
         RectInt bounds = this.Bounds;
 
