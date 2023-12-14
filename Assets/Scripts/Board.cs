@@ -43,7 +43,7 @@ public class Board : MonoBehaviour
     {
         get
         {
-            Vector2Int position = new Vector2Int(-this.boardSize.x / 2, -this.boardSize.y / 2); //o início é 0
+            Vector2Int position = new Vector2Int(-this.boardSize.x / 2, -this.boardSize.y / 2); //o inï¿½cio ï¿½ 0
             return new RectInt(position, boardSize);
         }
     }
@@ -72,8 +72,8 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
-        SetNextPiece();
-        SpawnPiece(nextPiece.data);
+        //SetNextPiece();
+        
     }
 
     private void Update()
@@ -135,6 +135,27 @@ public class Board : MonoBehaviour
         //TetrominoData data = this.tetrominoes[random];
 
         activePiece.Initialize(this, spawnPosition, data);
+
+        if(IsValidPosition(activePiece, spawnPosition))
+        {
+            Set(activePiece);
+        }
+        else
+        {
+            GameOver();
+        }
+
+        canSave = true;
+        
+    }
+
+    public void SpawnNextPiece( )
+    {
+        //int random = Random.Range(0, this.tetrominoes.Length);
+
+        //TetrominoData data = this.tetrominoes[random];
+
+        activePiece.Initialize(this, spawnPosition, nextPiece.data);
 
         if(IsValidPosition(activePiece, spawnPosition))
         {
@@ -233,8 +254,8 @@ public class Board : MonoBehaviour
         for (int i = 0; i < piece.cells.Length; i++)
         {
             Vector3Int tilePosition = piece.cells[i] + piece.position;
-            //piece.cells = posição padrão
-            //piece.cells[i] + piece.positon = posição global
+            //piece.cells = posiï¿½ï¿½o padrï¿½o
+            //piece.cells[i] + piece.positon = posiï¿½ï¿½o global
             tilemap.SetTile(tilePosition, piece.data.tile);
         }
     }
@@ -244,8 +265,8 @@ public class Board : MonoBehaviour
         for (int i = 0; i < piece.cells.Length; i++)
         {
             Vector3Int tilePosition = piece.cells[i] + piece.position;
-            //piece.cells = posição padrão
-            //piece.cells[i] + piece.positon = posição global
+            //piece.cells = posiï¿½ï¿½o padrï¿½o
+            //piece.cells[i] + piece.positon = posiï¿½ï¿½o global
             tilemap.SetTile(tilePosition, null);
         }
     }
@@ -345,7 +366,7 @@ public class Board : MonoBehaviour
             {
                 Vector3Int position = new Vector3Int(col, row + 1, 0);
 
-                TileBase above = this.tilemap.GetTile(position); //rouba a célula de cima
+                TileBase above = this.tilemap.GetTile(position); //rouba a cï¿½lula de cima
 
                 position = new Vector3Int(col, row, 0);
 

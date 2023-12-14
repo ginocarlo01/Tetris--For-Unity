@@ -35,6 +35,7 @@ public class Piece : MonoBehaviour
     private int verticalInt = 0;
 
     private bool isPaused;
+    public bool canBeControlled;
 
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
@@ -54,6 +55,8 @@ public class Piece : MonoBehaviour
         {
             this.cells[i] = (Vector3Int)data.cells[i]; //converte para vector 3
         }
+
+        canBeControlled = true;
     }
 
     public void ChangePauseState()
@@ -64,6 +67,8 @@ public class Piece : MonoBehaviour
     private void Update()
     {
         if (isPaused) { return; }
+
+        if(!canBeControlled) { return; }
 
         this.board.Clear(this);
 
@@ -100,7 +105,7 @@ public class Piece : MonoBehaviour
             HardDrop();
         }
 
-        if(Time.time >= stepTime) //é chamado a cada x segundos, time.time é o tempo atual 
+        if(Time.time >= stepTime) //ï¿½ chamado a cada x segundos, time.time ï¿½ o tempo atual 
         {
             Step();
         }
@@ -114,7 +119,7 @@ public class Piece : MonoBehaviour
 
         Move(Vector2Int.down);
 
-        if(this.lockTime >= this.lockDelay) //se o movimento acima for inválido, ele irá chamar o lock
+        if(this.lockTime >= this.lockDelay) //se o movimento acima for invï¿½lido, ele irï¿½ chamar o lock
         {
             Lock() ;
         }
@@ -122,8 +127,8 @@ public class Piece : MonoBehaviour
 
     private void Lock()
     {
-        this.board.Set(this); //último set antes da morte  
-        this.board.ClearLines(); //toda vez que uma peça for posicionada
+        this.board.Set(this); //ï¿½ltimo set antes da morte  
+        this.board.ClearLines(); //toda vez que uma peï¿½a for posicionada
         this.board.SpawnPiece(this.board.nextPiece.data);
         this.board.SetNextPiece();
     }
@@ -153,7 +158,7 @@ public class Piece : MonoBehaviour
         if (valid)
         {
             this.position = newPosition;
-            this.lockTime = 0; //aplicar aqui já aplica no rotation por causa dos testes de wallkick
+            this.lockTime = 0; //aplicar aqui jï¿½ aplica no rotation por causa dos testes de wallkick
         }
 
         return valid;
@@ -207,7 +212,7 @@ public class Piece : MonoBehaviour
 
         for(int i = 0; i < this.data.wallKicks.GetLength(1); i++)
         {
-            Vector2Int translation = this.data.wallKicks[wallKickIndex, i]; //pega a própria célula
+            Vector2Int translation = this.data.wallKicks[wallKickIndex, i]; //pega a prï¿½pria cï¿½lula
 
             if (Move(translation))
             {

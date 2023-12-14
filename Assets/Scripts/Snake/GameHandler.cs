@@ -9,6 +9,12 @@ public class GameHandler : MonoBehaviour
     private LevelGrid levelGrid;
 
     [SerializeField] private Snake snake;
+
+    [SerializeField]
+    int width = 10;
+
+    [SerializeField]
+    int height = 20;
     void Awake()
     {
         /*int number = 0;
@@ -18,8 +24,8 @@ public class GameHandler : MonoBehaviour
             number++;
         }, .3f);*/
 
-        levelGrid = new LevelGrid(10, 20, ((int)transform.position.x), ((int)transform.position.y));
-        snake.Setup(levelGrid);
+        levelGrid = new LevelGrid(width, height, ((int)transform.position.x), ((int)transform.position.y) + 1);
+        snake.Setup(levelGrid, width, height);
         levelGrid.Setup(snake);
     }
     void Update()

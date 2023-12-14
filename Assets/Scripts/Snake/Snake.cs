@@ -8,6 +8,9 @@ public class Snake : MonoBehaviour
 {
     private Vector2Int gridMoveDirection;
 
+    private Vector2Int nextMoveDirection;
+
+    [SerializeField]
     private Vector2Int gridPosition;
 
     private float gridMoveTimer;
@@ -25,16 +28,42 @@ public class Snake : MonoBehaviour
     [SerializeField]
     Vector2Int initGridPos;
 
-    public void Setup( LevelGrid levelGrid)
+    Vector2Int initSnakePos;
+
+    int width;
+    int height;
+
+    private bool canBeControlled = false;
+
+    [SerializeField]
+    private Signal lostSnake;
+
+    public void Setup(LevelGrid levelGrid,int width, int height)
     {
         this.levelGrid = levelGrid;
+        this.width = width;
+        this.height= height;
+    }
+
+    public void ActivateSnake(){
+        canBeControlled = true;
+    }
+
+    public void DisableSnake(){
+        canBeControlled = false;
+        lostSnake.Raise();
     }
 
     private void Awake()
     {
-        gridPosition = new Vector2Int(initGridPos.x, initGridPos.y + 0); //middle of the grid
+        ActivateSnake();
+        RestartSnake();
+    }
+
+    public void RestartSnake(){
+        gridPosition = new Vector2Int(initGridPos.x + initSnakePos.x, initGridPos.y + initSnakePos.y); 
         gridMoveTimer = gridMoveTimerMax;
-        gridMoveDirection = new Vector2Int(1,0); //default movement: right
+        gridMoveDirection = new Vector2Int(0,0); //default movement: zero
 
         snakeBodySize = 0;
         snakeMovePositionList = new List<Vector2Int>();
@@ -42,41 +71,48 @@ public class Snake : MonoBehaviour
 
     private void Update()
     {
+        if(!canBeControlled){ return; }
         HandleInput();
         HandleGridMovement();
     }
 
+    
     private void HandleInput()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            //we can only go up if we are not going down
-            if (gridMoveDirection != Vector2Int.down)
-            {
-                gridMoveDirection = Vector2Int.up;
-            }
-
+            nextMoveDirection = Vector2Int.up;
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (gridMoveDirection != Vector2Int.up)
-            {
-                gridMoveDirection = Vector2Int.down;
-            }
+            nextMoveDirection = Vector2Int.down;   
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (gridMoveDirection != Vector2Int.left)
-            {
-                gridMoveDirection = Vector2Int.right;
-            }
+            nextMoveDirection = Vector2Int.right;  
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            if (gridMoveDirection != Vector2Int.right)
-            {
-                gridMoveDirection = Vector2Int.left;
-            }
+            nextMoveDirection = Vector2Int.left;   
+        }
+    }
+
+    private void HandleDirection(){
+        if (nextMoveDirection ==  Vector2Int.up && gridMoveDirection != Vector2Int.down)
+        {
+            gridMoveDirection = Vector2Int.up;
+        }
+        else if (nextMoveDirection ==  Vector2Int.down && gridMoveDirection != Vector2Int.up)
+        {
+            gridMoveDirection = Vector2Int.down;
+        }
+        else if (nextMoveDirection ==  Vector2Int.right && gridMoveDirection != Vector2Int.left)
+        {
+            gridMoveDirection = Vector2Int.right;
+        }
+        else if (nextMoveDirection ==  Vector2Int.left && gridMoveDirection != Vector2Int.right)
+        {
+            gridMoveDirection = Vector2Int.left;
         }
     }
 
@@ -90,13 +126,8 @@ public class Snake : MonoBehaviour
 
             snakeMovePositionList.Insert(0, gridPosition);
 
-            for (int i = 0; i < snakeMovePositionList.Count; i++)
-            {
-                
-                Debug.Log(snakeMovePositionList[i]);
-            }
-            Debug.Log("---------------------------------------");
-
+            
+            HandleDirection();
             gridPosition += gridMoveDirection;
             gridMoveTimer = 0f;
 
@@ -109,9 +140,21 @@ public class Snake : MonoBehaviour
             {
                 if (snakeMovePositionList[i] == gridPosition)
                 {
-                    CMDebug.TextPopup("Game over", transform.position);
+                    RestartSnake();
+                    DisableSnake();
                 }
+
+                
             }
+
+            if(gridPosition.x > initGridPos.x + width ||
+                    gridPosition.x < initGridPos.x ||
+                    gridPosition.y > initGridPos.y + height ||
+                    gridPosition.y < initGridPos.y
+                    ){
+                        RestartSnake();
+                        DisableSnake();
+                }
 
             for (int i = 0; i < snakeMovePositionList.Count; i++)
             {
@@ -130,6 +173,11 @@ public class Snake : MonoBehaviour
             if (snakeAteFood)
             {
                 snakeBodySize++;
+
+                if(snakeBodySize >= 4){
+                    RestartSnake();
+                    DisableSnake();
+                }
             }
         }
 

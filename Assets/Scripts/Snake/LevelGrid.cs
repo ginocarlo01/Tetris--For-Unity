@@ -5,6 +5,7 @@ using CodeMonkey;
 using UnityEditor;
 public class LevelGrid 
 {
+    
     private Vector2Int foodGridPosition;
 
     int width;
@@ -38,7 +39,8 @@ public class LevelGrid
     {
         do
         {
-            foodGridPosition = new Vector2Int(Random.Range(0, width), Random.Range(0, height));
+            foodGridPosition = new Vector2Int(Random.Range(initPosX, initPosX + width), Random.Range(initPosY, initPosY + height));
+
         }
         while (snake.GetFullSnakeGridPosition().IndexOf(foodGridPosition) != -1); //gonna keep trying to find a new position while it is the same as the snake
         
@@ -47,7 +49,7 @@ public class LevelGrid
 
         foodGameObject.GetComponent<SpriteRenderer>().sprite = GameAssets.Instance.foodSprite;
 
-        foodGameObject.transform.position = new Vector3(initPosX + foodGridPosition.x, initPosY + foodGridPosition.y, 0);
+        foodGameObject.transform.position = new Vector3( foodGridPosition.x,foodGridPosition.y, 0);
     }
 
     public bool TrySnakeEatFood(Vector2Int snakeGridPosition)
@@ -62,5 +64,13 @@ public class LevelGrid
         {
             return false;
         }
+    }
+
+    public void DestroyFood(){
+        
+        if(foodGameObject != null){
+            Object.Destroy(foodGameObject);
+        }
+        
     }
 }

@@ -19,6 +19,7 @@ public class Ghost : MonoBehaviour
 
     private void LateUpdate() //after all other updates
     {
+        if(!trackingPiece.canBeControlled) { return;}
         Clear();
         Copy();
         Drop();
@@ -30,8 +31,8 @@ public class Ghost : MonoBehaviour
         for (int i = 0; i < this.cells.Length; i++)
         {
             Vector3Int tilePosition = this.cells[i] + this.position;
-            //piece.cells = posição padrão
-            //piece.cells[i] + piece.positon = posição global
+            //piece.cells = posiï¿½ï¿½o padrï¿½o
+            //piece.cells[i] + piece.positon = posiï¿½ï¿½o global
             tilemap.SetTile(tilePosition, null);
         }
     }
@@ -52,7 +53,7 @@ public class Ghost : MonoBehaviour
 
         int bottom = -this.board.boardSize.y / 2 - 1; //uma linha para cima
 
-        this.board.Clear(this.trackingPiece); //limpa para não dar conflito
+        this.board.Clear(this.trackingPiece); //limpa para nï¿½o dar conflito
 
         for(int row = current; row >= bottom; row--)
         {
@@ -76,8 +77,8 @@ public class Ghost : MonoBehaviour
         for (int i = 0; i < this.cells.Length; i++)
         {
             Vector3Int tilePosition = this.cells[i] + this.position;
-            //piece.cells = posição padrão
-            //piece.cells[i] + piece.positon = posição global
+            //piece.cells = posiï¿½ï¿½o padrï¿½o
+            //piece.cells[i] + piece.positon = posiï¿½ï¿½o global
             tilemap.SetTile(tilePosition, this.tile);
         }
     }
