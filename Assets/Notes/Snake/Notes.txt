@@ -1,0 +1,1 @@
+nova prática detectada: criar uma classe singleton que contém todos os game assets ao invés de colocar na classe
