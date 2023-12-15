@@ -77,12 +77,12 @@ public class JsonReadWriteSystem : MonoBehaviour
     {
 #if UNITY_WEBGL
 
-        // Se estiver no WebGL, use PlayerPrefs para salvar um único valor (exemplo: maxScore)
+        // Se estiver no WebGL, use PlayerPrefs para salvar um ï¿½nico valor (exemplo: maxScore)
         PlayerPrefs.SetInt("MaxScore", playerData.maxScore);
         PlayerPrefs.Save();
 
 #else
-            // Se não estiver no WebGL, salve os dados como JSON em um arquivo
+            // Se nï¿½o estiver no WebGL, salve os dados como JSON em um arquivo
             string json = JsonUtility.ToJson(playerData);
             WriteToFile(fileName, json);
 #endif
@@ -111,7 +111,7 @@ public class JsonReadWriteSystem : MonoBehaviour
     public void ResetData()
     {
         playerData.MaxScore = 0;
-
+        playerData.soundOn = true;
         Save();
     }
 

@@ -6,12 +6,14 @@ public class PlayerData
 {
 
     public int maxScore;
-    public PlayerData(int maxScore=0)
+
+    public bool soundOn;
+    public PlayerData(int maxScore=0, bool soundOn=true)
     {
         this.maxScore = maxScore;
+        this.SoundOn = soundOn;
     }
 
     public int MaxScore { get => maxScore; set => maxScore = value; }
-
-    
+    public bool SoundOn { get => soundOn; set => soundOn = value; }
 }

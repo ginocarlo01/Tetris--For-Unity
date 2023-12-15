@@ -247,7 +247,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<- -> / ad = move\ndown / s = speed up\nup / e = rotate\nspace = hard
-    drop\ntab / c = save \nesc = pause / play"
+    drop\ntab / c = save \nesc = pause / play\nm = turn of/off sound"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2468ce162cc0d374dac01a5f316c24fb, type: 2}
   m_sharedMaterial: {fileID: 1729643218199878624, guid: 2468ce162cc0d374dac01a5f316c24fb, type: 2}

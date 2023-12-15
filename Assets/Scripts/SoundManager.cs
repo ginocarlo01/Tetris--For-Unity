@@ -16,7 +16,18 @@ public class SoundManager : MonoBehaviour
         instance = this;
     }
 
-    
+    private void Start() {
+        if(_musicSource!=null) _musicSource.gameObject.SetActive(JsonReadWriteSystem.INSTANCE.playerData.soundOn);
+        if(_effectsSource!=null) _effectsSource.gameObject.SetActive(JsonReadWriteSystem.INSTANCE.playerData.soundOn);
+    }
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.M)){
+            JsonReadWriteSystem.INSTANCE.playerData.soundOn = !_musicSource.isActiveAndEnabled;
+            if(_musicSource!=null) _musicSource.gameObject.SetActive(JsonReadWriteSystem.INSTANCE.playerData.soundOn);
+            if(_effectsSource!=null) _effectsSource.gameObject.SetActive(JsonReadWriteSystem.INSTANCE.playerData.soundOn);
+        }
+    }
 
     public void PlaySound(AudioClip clip)
     {

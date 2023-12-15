@@ -355,7 +355,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1849819611
-  m_SortingLayer: 1
+  m_SortingLayer: -1
   m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -1444,7 +1444,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1849819611
-  m_SortingLayer: 1
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 6ff6b85966aeb3f4ab304af07f4dd424, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2092,6 +2092,7 @@ GameObject:
   - component: {fileID: 1185102023}
   - component: {fileID: 1185102024}
   - component: {fileID: 1185102025}
+  - component: {fileID: 1185102026}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -2181,13 +2182,14 @@ MonoBehaviour:
   stepDelay: 0.5
   lockDelay: 0.2
   stepTime: 0
-  moveDelay: 0.1
+  moveDelay: 0.08
   moveTimer: 0
   canMove: 1
   horizontal: 0
   vertical: 0
   horizontalInt: 0
   verticalInt: 0
+  canBeControlled: 0
 --- !u!114 &1185102025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2219,6 +2221,46 @@ MonoBehaviour:
       - m_Target: {fileID: 1185102024}
         m_TargetAssemblyTypeName: Piece, Assembly-CSharp
         m_MethodName: ChangePauseState
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1185102026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185102020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503efef0924a8464c934a1661edd4706, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  signal: {fileID: 11400000, guid: 4d5305a4890876444bf481a7ab850a4d, type: 2}
+  signalEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1185102023}
+        m_TargetAssemblyTypeName: Board, Assembly-CSharp
+        m_MethodName: SetNextPiece
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1185102023}
+        m_TargetAssemblyTypeName: Board, Assembly-CSharp
+        m_MethodName: SpawnNextPiece
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2967,7 +3009,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1849819611
-  m_SortingLayer: 1
+  m_SortingLayer: -1
   m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -4207,6 +4249,7 @@ GameObject:
   - component: {fileID: 2147024061}
   - component: {fileID: 2147024062}
   - component: {fileID: 2147024064}
+  - component: {fileID: 2147024065}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -4324,6 +4367,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: SaveFile
+--- !u!114 &2147024065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2147024056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 802f64efd6c7fd44caff4fa3fe519401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTetrisSignal: {fileID: 11400000, guid: 4d5305a4890876444bf481a7ab850a4d, type: 2}
 --- !u!1 &305036899493367892
 GameObject:
   m_ObjectHideFlags: 0
