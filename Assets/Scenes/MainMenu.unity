@@ -468,6 +468,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7566278747953099301}
     m_Modifications:
+    - target: {fileID: 374956447872916438, guid: 5d0da27fac08ebb449c54d85931db328, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 48.614
+      objectReference: {fileID: 0}
+    - target: {fileID: 374956447872916438, guid: 5d0da27fac08ebb449c54d85931db328, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 518.0696
+      objectReference: {fileID: 0}
+    - target: {fileID: 374956447872916439, guid: 5d0da27fac08ebb449c54d85931db328, type: 3}
+      propertyPath: m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 374956447872916439, guid: 5d0da27fac08ebb449c54d85931db328, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 374956447872916439, guid: 5d0da27fac08ebb449c54d85931db328, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 374956447876459824, guid: 5d0da27fac08ebb449c54d85931db328, type: 3}
       propertyPath: m_Enabled
       value: 1

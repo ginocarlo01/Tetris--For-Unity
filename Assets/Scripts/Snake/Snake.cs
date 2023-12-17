@@ -128,6 +128,7 @@ public class Snake : MonoBehaviour
 
             
             HandleDirection();
+            
             gridPosition += gridMoveDirection;
             gridMoveTimer = 0f;
 
@@ -140,8 +141,7 @@ public class Snake : MonoBehaviour
             {
                 if (snakeMovePositionList[i] == gridPosition)
                 {
-                    RestartSnake();
-                    DisableSnake();
+                    HandleDeath();
                 }
 
                 
@@ -152,8 +152,7 @@ public class Snake : MonoBehaviour
                     gridPosition.y > initGridPos.y + height ||
                     gridPosition.y < initGridPos.y
                     ){
-                        RestartSnake();
-                        DisableSnake();
+                        HandleDeath();
                 }
 
             for (int i = 0; i < snakeMovePositionList.Count; i++)
@@ -175,13 +174,17 @@ public class Snake : MonoBehaviour
                 snakeBodySize++;
 
                 if(snakeBodySize >= 4){
-                    RestartSnake();
-                    DisableSnake();
+                    HandleDeath();
                 }
             }
         }
 
     
+    }
+
+    public void HandleDeath(){
+        RestartSnake();
+        DisableSnake();
     }
 
     private float GetAngleFromVector(Vector2Int dir)

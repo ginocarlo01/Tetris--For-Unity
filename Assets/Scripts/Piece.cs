@@ -37,6 +37,9 @@ public class Piece : MonoBehaviour
     private bool isPaused;
     public bool canBeControlled;
 
+    [SerializeField]
+    private Signal tetrisLostSignal;
+
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
         this.board = board;
@@ -129,8 +132,10 @@ public class Piece : MonoBehaviour
     {
         this.board.Set(this); //�ltimo set antes da morte  
         this.board.ClearLines(); //toda vez que uma pe�a for posicionada
-        this.board.SpawnPiece(this.board.nextPiece.data);
-        this.board.SetNextPiece();
+        //this.board.SpawnPiece(this.board.nextPiece.data);
+        //this.board.SetNextPiece();
+        //the commands above are going to be done via signal
+        tetrisLostSignal.Raise();
     }
 
     private void HardDrop()
