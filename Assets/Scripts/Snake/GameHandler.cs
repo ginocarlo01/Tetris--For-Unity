@@ -28,8 +28,13 @@ public class GameHandler : MonoBehaviour
         snake.Setup(levelGrid, width, height);
         levelGrid.Setup(snake);
     }
-    void Update()
+    public void DestroySnakeFood()
     {
-        
+        levelGrid.DestroyFood();
+    }
+
+    public void SpawnSnakeFood()
+    {
+        levelGrid.SpawnFood();
     }
 }

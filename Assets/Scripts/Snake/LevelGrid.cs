@@ -35,8 +35,9 @@ public class LevelGrid
         SpawnFood();
     }
 
-    private void SpawnFood()
+    public void SpawnFood()
     {
+        
         do
         {
             foodGridPosition = new Vector2Int(Random.Range(initPosX, initPosX + width), Random.Range(initPosY, initPosY + height));

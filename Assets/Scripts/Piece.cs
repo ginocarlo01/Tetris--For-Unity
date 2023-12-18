@@ -40,6 +40,9 @@ public class Piece : MonoBehaviour
     [SerializeField]
     private Signal tetrisLostSignal;
 
+    bool disableThisPiece = false;
+    bool alreadyDisabled = false;
+
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
         this.board = board;
@@ -67,8 +70,20 @@ public class Piece : MonoBehaviour
         isPaused = !isPaused;
     }
 
+    private void Start()
+    {
+        DisableMovement();
+    }
+
     private void Update()
     {
+        if (disableThisPiece && !alreadyDisabled)
+        {
+            this.board.Clear(this);
+            alreadyDisabled = true;
+        }
+
+
         if (isPaused) { return; }
 
         if(!canBeControlled) { return; }
@@ -114,6 +129,12 @@ public class Piece : MonoBehaviour
         }
 
         this.board.Set(this);
+
+        if (disableThisPiece && !alreadyDisabled)
+        {
+            this.board.Clear(this);
+            alreadyDisabled = true;
+        }
     }
 
     private void Step()
@@ -128,15 +149,29 @@ public class Piece : MonoBehaviour
         }
     }
 
+    public void EnableMovement()
+    {
+        disableThisPiece = false;
+        alreadyDisabled = false;
+        canBeControlled = true;
+    }
+    public void DisableMovement()
+    {
+        disableThisPiece = true;
+        canBeControlled = false;
+    }
+
     private void Lock()
     {
         this.board.Set(this); //�ltimo set antes da morte  
         this.board.ClearLines(); //toda vez que uma pe�a for posicionada
-        //this.board.SpawnPiece(this.board.nextPiece.data);
-        //this.board.SetNextPiece();
-        //the commands above are going to be done via signal
+        this.board.SpawnPiece(this.board.nextPiece.data);
+        this.board.SetNextPiece();
+        
         tetrisLostSignal.Raise();
     }
+
+    
 
     private void HardDrop()
     {

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class Board : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Board : MonoBehaviour
     public NewPiece nextPiece { get; private set; }
     public SavedPiece savedPiece { get; private set; }
     public Vector3Int spawnPosition;
+    public Vector3Int[] tempPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
     public Vector3Int previewPosition;
     public Vector3Int holdPosition;
@@ -35,6 +37,9 @@ public class Board : MonoBehaviour
 
     [SerializeField]
     private Signal pauseSignal;
+
+    [SerializeField]
+    private Tile filledTile;
 
     private bool isPaused;
 
@@ -72,14 +77,21 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
-        //SetNextPiece();
-        //SpawnNextPiece
+        SetNextPiece();
+        SpawnPiece(nextPiece.data);
+        
     }
 
     private void Update()
     {
 
         if (isPaused) { return; }
+
+        //For debug purposes:
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            UpLines();
+        }
 
 
         if (Input.GetButtonDown("Save") && canSave)
@@ -128,6 +140,20 @@ public class Board : MonoBehaviour
         canSave = false;
     }
 
+    public void GenerateRandomPieces()
+    {
+        int random = Random.Range(0, tetrominoes.Length);
+        TetrominoData data = tetrominoes[random];
+        nextPiece.Initialize(this, previewPosition, data);
+
+        //set da next piece:
+        for (int i = 0; i < nextPiece.cells.Length; i++)
+        {
+            Vector3Int tilePosition = nextPiece.cells[i] + nextPiece.position;
+            tilemap.SetTile(tilePosition, nextPiece.data.tile);
+        }
+    }
+
     public void SpawnPiece(TetrominoData data)
     {
         //int random = Random.Range(0, this.tetrominoes.Length);
@@ -157,7 +183,7 @@ public class Board : MonoBehaviour
 
         activePiece.Initialize(this, spawnPosition, nextPiece.data);
 
-        if(IsValidPosition(activePiece, spawnPosition))
+        if(IsValidPosition(activePiece, spawnPosition)) //first we are going to change to a backup position and then move to the original position
         {
             Set(activePiece);
         }
@@ -220,7 +246,7 @@ public class Board : MonoBehaviour
             uiMan.resultsTxt.text = "New high score: " + ScoreManager.instance.GetScore().ToString() + ", congratulations!";
             string hexColor = "#5D9300";
             Color textColor;
-            if (ColorUtility.TryParseHtmlString(hexColor, out textColor))
+            if (UnityEngine.ColorUtility.TryParseHtmlString(hexColor, out textColor))
             {
                 // Assign the color to the text component
                 uiMan.resultsTxt.color = textColor;
@@ -235,7 +261,7 @@ public class Board : MonoBehaviour
             uiMan.resultsTxt.text = "You didn't get a new high score :(. Your best was: " + JsonReadWriteSystem.INSTANCE.playerData.MaxScore.ToString();
             string hexColor = "#EC483C";
             Color textColor;
-            if (ColorUtility.TryParseHtmlString(hexColor, out textColor))
+            if (UnityEngine.ColorUtility.TryParseHtmlString(hexColor, out textColor))
             {
                 // Assign the color to the text component
                 uiMan.resultsTxt.color = textColor;
@@ -259,6 +285,8 @@ public class Board : MonoBehaviour
             tilemap.SetTile(tilePosition, piece.data.tile);
         }
     }
+
+    
 
     public void Clear(Piece piece)
     {
@@ -375,6 +403,42 @@ public class Board : MonoBehaviour
 
             row++;
         }
+    }
+
+    private void UpLines()
+    {
+        RectInt bounds = this.Bounds;
+
+        int row = bounds.yMax; //last line
+
+        //move all the lines one line above
+        while (row > bounds.yMin - 1)
+        {
+            for (int col = bounds.xMin; col < bounds.xMax; col++)
+            {
+                Vector3Int position = new Vector3Int(col, row - 1, 0);
+
+                TileBase below = this.tilemap.GetTile(position); //get below cell
+
+                position = new Vector3Int(col, row, 0);
+
+                this.tilemap.SetTile(position, below); //switches
+            }
+
+            row--;
+        }
+
+        //turn the first row into occupied
+
+        row = bounds.yMin; //last line
+
+        for (int col = bounds.xMin; col < bounds.xMax; col++)
+        {
+            Vector3Int position = new Vector3Int(col, row, 0);
+
+            this.tilemap.SetTile(position, filledTile);
+        }
+
     }
 }
 

@@ -148,7 +148,7 @@ GameObject:
   m_Component:
   - component: {fileID: 243215743}
   m_Layer: 0
-  m_Name: Snake
+  m_Name: SnakeGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1213,6 +1213,7 @@ GameObject:
   - component: {fileID: 852840731}
   - component: {fileID: 852840730}
   - component: {fileID: 852840732}
+  - component: {fileID: 852840733}
   m_Layer: 0
   m_Name: Snake
   m_TagString: Untagged
@@ -1301,9 +1302,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0}
   gridMoveTimerMax: 0.2
-  snakeBodySize: 0
   initGridPos: {x: -17, y: -9}
+  snakeBodySize: 0
+  initSnakePos: {x: 5, y: 2}
   lostSnake: {fileID: 11400000, guid: bb4ba2373fb6b8445b3d1b9db65203f3, type: 2}
+  maxSnakeBodySize: 4
+--- !u!114 &852840733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852840729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503efef0924a8464c934a1661edd4706, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  signal: {fileID: 11400000, guid: 15e463c264b5c1144a1af07c0e726fe2, type: 2}
+  signalEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 852840732}
+        m_TargetAssemblyTypeName: Snake, Assembly-CSharp
+        m_MethodName: RestartSnake
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 852840732}
+        m_TargetAssemblyTypeName: Snake, Assembly-CSharp
+        m_MethodName: ActivateSnake
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &867178041
 GameObject:
   m_ObjectHideFlags: 0
@@ -1646,7 +1689,7 @@ GameObject:
   m_Component:
   - component: {fileID: 940460349}
   m_Layer: 0
-  m_Name: Tetris
+  m_Name: TetrisGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1659,8 +1702,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 940460348}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.87986, y: 0.5, z: 0.12707584}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.8798828, y: 0.5, z: 0.12707579}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2216,6 +2259,7 @@ GameObject:
   - component: {fileID: 1185102024}
   - component: {fileID: 1185102025}
   - component: {fileID: 1185102026}
+  - component: {fileID: 1185102027}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -2279,6 +2323,7 @@ MonoBehaviour:
   - tetromino: 6
     tile: {fileID: 11400000, guid: cd961425ad3ec5c41bee7cbb791ccf86, type: 2}
   spawnPosition: {x: -1, y: 8, z: 0}
+  tempPosition: {x: 0, y: 0, z: 0}
   boardSize: {x: 10, y: 20}
   previewPosition: {x: 11, y: -1, z: 0}
   holdPosition: {x: 6666, y: -1, z: 0}
@@ -2290,6 +2335,7 @@ MonoBehaviour:
   gameOverSFX: {fileID: 8300000, guid: 4b4dd7245f6104c8c8eb07ccf6b386ed, type: 3}
   gameOverSignal: {fileID: 11400000, guid: 6322389489b0b5948a3a6dba130f23a7, type: 2}
   pauseSignal: {fileID: 11400000, guid: 2896690a46ff0ec4698a755fc9bbc1fd, type: 2}
+  filledTile: {fileID: 11400000, guid: 8e20bf4004d73d245a978ce62dda7e3a, type: 2}
 --- !u!114 &1185102024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2313,6 +2359,7 @@ MonoBehaviour:
   horizontalInt: 0
   verticalInt: 0
   canBeControlled: 0
+  tetrisLostSignal: {fileID: 11400000, guid: 15e463c264b5c1144a1af07c0e726fe2, type: 2}
 --- !u!114 &1185102025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2369,9 +2416,9 @@ MonoBehaviour:
   signalEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1185102023}
-        m_TargetAssemblyTypeName: Board, Assembly-CSharp
-        m_MethodName: SetNextPiece
+      - m_Target: {fileID: 1185102024}
+        m_TargetAssemblyTypeName: Piece, Assembly-CSharp
+        m_MethodName: EnableMovement
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2381,9 +2428,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1185102023}
-        m_TargetAssemblyTypeName: Board, Assembly-CSharp
-        m_MethodName: SpawnNextPiece
+--- !u!114 &1185102027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185102020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503efef0924a8464c934a1661edd4706, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  signal: {fileID: 11400000, guid: 15e463c264b5c1144a1af07c0e726fe2, type: 2}
+  signalEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1185102024}
+        m_TargetAssemblyTypeName: Piece, Assembly-CSharp
+        m_MethodName: DisableMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1185102024}
+        m_TargetAssemblyTypeName: Piece, Assembly-CSharp
+        m_MethodName: ClearThisLine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3709,6 +3784,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1815755363}
   - component: {fileID: 1815755364}
+  - component: {fileID: 1815755365}
+  - component: {fileID: 1815755366}
   m_Layer: 0
   m_Name: GameHandler
   m_TagString: Untagged
@@ -3746,6 +3823,62 @@ MonoBehaviour:
   snake: {fileID: 852840732}
   width: 9
   height: 19
+--- !u!114 &1815755365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815755362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503efef0924a8464c934a1661edd4706, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  signal: {fileID: 11400000, guid: bb4ba2373fb6b8445b3d1b9db65203f3, type: 2}
+  signalEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1815755364}
+        m_TargetAssemblyTypeName: GameHandler, Assembly-CSharp
+        m_MethodName: DestroySnakeFood
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1815755366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815755362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503efef0924a8464c934a1661edd4706, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  signal: {fileID: 11400000, guid: 15e463c264b5c1144a1af07c0e726fe2, type: 2}
+  signalEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1815755364}
+        m_TargetAssemblyTypeName: GameHandler, Assembly-CSharp
+        m_MethodName: SpawnSnakeFood
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1831204156
 GameObject:
   m_ObjectHideFlags: 0
@@ -5044,7 +5177,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1527306526780426064
 MonoBehaviour:
   m_ObjectHideFlags: 0

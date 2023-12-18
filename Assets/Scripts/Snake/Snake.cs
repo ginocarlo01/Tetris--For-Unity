@@ -6,37 +6,32 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
+    //grid
     private Vector2Int gridMoveDirection;
-
     private Vector2Int nextMoveDirection;
-
     [SerializeField]
     private Vector2Int gridPosition;
-
     private float gridMoveTimer;
-
     [SerializeField]
     private float gridMoveTimerMax = 1f;
-
     LevelGrid levelGrid;
-
-    [SerializeField]
-    private int snakeBodySize;
-
-    private List<Vector2Int> snakeMovePositionList;
-
     [SerializeField]
     Vector2Int initGridPos;
-
-    Vector2Int initSnakePos;
-
     int width;
     int height;
 
+    //snake
+    SpriteRenderer spriteRenderer;
+    [SerializeField]
+    private int snakeBodySize;
+    private List<Vector2Int> snakeMovePositionList;
+    [SerializeField]
+    Vector2Int initSnakePos;
     private bool canBeControlled = false;
-
     [SerializeField]
     private Signal lostSnake;
+    [SerializeField]
+    private int maxSnakeBodySize = 4;
 
     public void Setup(LevelGrid levelGrid,int width, int height)
     {
@@ -47,22 +42,27 @@ public class Snake : MonoBehaviour
 
     public void ActivateSnake(){
         canBeControlled = true;
+        spriteRenderer.enabled = true;
     }
 
     public void DisableSnake(){
         canBeControlled = false;
+        spriteRenderer.enabled = false;
         lostSnake.Raise();
     }
 
     private void Awake()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         ActivateSnake();
         RestartSnake();
     }
 
+
     public void RestartSnake(){
         gridPosition = new Vector2Int(initGridPos.x + initSnakePos.x, initGridPos.y + initSnakePos.y); 
         gridMoveTimer = gridMoveTimerMax;
+        nextMoveDirection = new Vector2Int(0, 0);
         gridMoveDirection = new Vector2Int(0,0); //default movement: zero
 
         snakeBodySize = 0;
@@ -173,13 +173,11 @@ public class Snake : MonoBehaviour
             {
                 snakeBodySize++;
 
-                if(snakeBodySize >= 4){
+                if(snakeBodySize >= maxSnakeBodySize){
                     HandleDeath();
                 }
             }
         }
-
-    
     }
 
     public void HandleDeath(){

@@ -19,8 +19,10 @@ public class Ghost : MonoBehaviour
 
     private void LateUpdate() //after all other updates
     {
-        if(!trackingPiece.canBeControlled) { return;}
         Clear();
+
+        if (!trackingPiece.canBeControlled) { return;}
+        
         Copy();
         Drop();
         Set();
