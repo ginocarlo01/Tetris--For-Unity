@@ -11,6 +11,7 @@ public class Board : MonoBehaviour
     public NewPiece nextPiece { get; private set; }
     public SavedPiece savedPiece { get; private set; }
     public Vector3Int spawnPosition;
+    public NewPiece[] tempPiece;
     public Vector3Int[] tempPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
     public Vector3Int previewPosition;
@@ -43,6 +44,8 @@ public class Board : MonoBehaviour
 
     private bool isPaused;
 
+    private bool choosingRandomPiece;
+
 
     public RectInt Bounds
     {
@@ -57,7 +60,14 @@ public class Board : MonoBehaviour
     {
         canSave = true;
 
-        nextPiece = gameObject.AddComponent<NewPiece>();   
+        nextPiece = gameObject.AddComponent<NewPiece>();
+
+        tempPiece = new NewPiece[4];
+
+        for (int i = 0; i < tempPosition.Length; i++)
+        {
+            tempPiece[i] = gameObject.AddComponent<NewPiece>();
+        }
 
         savedPiece = gameObject.AddComponent<SavedPiece>();
 
@@ -87,17 +97,51 @@ public class Board : MonoBehaviour
 
         if (isPaused) { return; }
 
+        if (choosingRandomPiece)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                SpawnPiece(tempPiece[0].data);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Debug.Log("You pressed the 1 key!");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                Debug.Log("You pressed the 2 key!");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                Debug.Log("You pressed the 3 key!");
+            }
+        }
+
         //For debug purposes:
         if (Input.GetKeyDown(KeyCode.I))
         {
             UpLines();
         }
 
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            GenerateRandomPieces();
+        }
 
+
+
+        /*
         if (Input.GetButtonDown("Save") && canSave)
         {
             Swap();
-        }
+        }*/
+    }
+
+    public void ChangeToRandomChoose(bool state)
+    {
+        choosingRandomPiece = state;
     }
 
     private void Swap()
@@ -142,15 +186,34 @@ public class Board : MonoBehaviour
 
     public void GenerateRandomPieces()
     {
-        int random = Random.Range(0, tetrominoes.Length);
-        TetrominoData data = tetrominoes[random];
-        nextPiece.Initialize(this, previewPosition, data);
+        //clean the old pieces
+        CleanRandomPieces();
 
-        //set da next piece:
-        for (int i = 0; i < nextPiece.cells.Length; i++)
+        //set the new pieces
+        for (int j = 0; j<tempPosition.Length; j++)
         {
-            Vector3Int tilePosition = nextPiece.cells[i] + nextPiece.position;
-            tilemap.SetTile(tilePosition, nextPiece.data.tile);
+            int random = Random.Range(0, tetrominoes.Length);
+            TetrominoData data = tetrominoes[random];
+            tempPiece[j].Initialize(this, tempPosition[j], data);
+
+            for (int i = 0; i < tempPiece[j].cells.Length; i++)
+            {
+                Vector3Int tilePosition = tempPiece[j].cells[i] + tempPiece[j].position;
+                tilemap.SetTile(tilePosition, tempPiece[j].data.tile);
+            }
+        }
+        
+    }
+
+    public void CleanRandomPieces()
+    {
+        for (int j = 0; j < tempPosition.Length; j++)
+        {
+            for (int i = 0; i < tempPiece[j].cells.Length; i++)
+            {
+                Vector3Int tilePosition = tempPiece[j].cells[i] + tempPiece[j].position;
+                tilemap.SetTile(tilePosition, null);
+            }
         }
     }
 
@@ -371,6 +434,8 @@ public class Board : MonoBehaviour
             {
                 return false;
             }
+
+            //there is no need to check if it is a ghost or not because we are going randomize the empty column
         }
 
         return true;
@@ -411,6 +476,8 @@ public class Board : MonoBehaviour
 
         int row = bounds.yMax; //last line
 
+        int random = Random.Range(0, bounds.xMax); //choose a random column
+
         //move all the lines one line above
         while (row > bounds.yMin - 1)
         {
@@ -434,9 +501,14 @@ public class Board : MonoBehaviour
 
         for (int col = bounds.xMin; col < bounds.xMax; col++)
         {
-            Vector3Int position = new Vector3Int(col, row, 0);
 
-            this.tilemap.SetTile(position, filledTile);
+            if(col != random)
+            {
+                Vector3Int position = new Vector3Int(col, row, 0);
+
+                this.tilemap.SetTile(position, filledTile);
+            }
+            
         }
 
     }

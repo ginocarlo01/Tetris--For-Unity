@@ -31,6 +31,8 @@ public class Snake : MonoBehaviour
     [SerializeField]
     private Signal lostSnake;
     [SerializeField]
+    private Signal winSnake;
+    [SerializeField]
     private int maxSnakeBodySize = 4;
 
     public void Setup(LevelGrid levelGrid,int width, int height)
@@ -48,7 +50,7 @@ public class Snake : MonoBehaviour
     public void DisableSnake(){
         canBeControlled = false;
         spriteRenderer.enabled = false;
-        lostSnake.Raise();
+        
     }
 
     private void Awake()
@@ -174,6 +176,7 @@ public class Snake : MonoBehaviour
                 snakeBodySize++;
 
                 if(snakeBodySize >= maxSnakeBodySize){
+                    //HandleVictory();
                     HandleDeath();
                 }
             }
@@ -183,6 +186,14 @@ public class Snake : MonoBehaviour
     public void HandleDeath(){
         RestartSnake();
         DisableSnake();
+        lostSnake.Raise();
+    }
+
+    public void HandleVictory()
+    {
+        RestartSnake();
+        DisableSnake();
+        winSnake.Raise();
     }
 
     private float GetAngleFromVector(Vector2Int dir)
