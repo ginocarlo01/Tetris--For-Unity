@@ -15,6 +15,9 @@ public class GameHandler : MonoBehaviour
 
     [SerializeField]
     int height = 20;
+
+    [SerializeField]
+    private Board board;
     void Awake()
     {
         /*int number = 0;

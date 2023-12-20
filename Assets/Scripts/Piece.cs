@@ -165,9 +165,9 @@ public class Piece : MonoBehaviour
     {
         this.board.Set(this); //�ltimo set antes da morte  
         this.board.ClearLines(); //toda vez que uma pe�a for posicionada
+        this.board.UpdateLinesForFoodSpawn();
         this.board.SpawnPiece(this.board.nextPiece.data);
         this.board.SetNextPiece();
-        
         tetrisLostSignal.Raise();
     }
 

@@ -146,12 +146,13 @@ public class Snake : MonoBehaviour
 
             }
 
+            //out of limits
             if(gridPosition.x > initGridPos.x + width ||
                     gridPosition.x < initGridPos.x ||
                     gridPosition.y > initGridPos.y + height ||
                     gridPosition.y < initGridPos.y
                     ){
-                        HandleDeath();
+                HandleDeath();
                 }
 
             for (int i = 0; i < snakeMovePositionList.Count; i++)
@@ -174,7 +175,6 @@ public class Snake : MonoBehaviour
 
                 if(snakeBodySize >= maxSnakeBodySize){
                     HandleVictory();
-                    //HandleDeath();
                 }
             }
         }

@@ -46,6 +46,14 @@ public class Board : MonoBehaviour
 
     private bool choosingRandomPiece;
 
+    [SerializeField]
+    private int[] listOfRowsOccupied;
+
+    [SerializeField]
+    private int qtyTempPieces;
+
+    public static Board instance;
+
 
     public RectInt Bounds
     {
@@ -58,11 +66,20 @@ public class Board : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
+
         canSave = true;
 
         nextPiece = gameObject.AddComponent<NewPiece>();
 
-        tempPiece = new NewPiece[4];
+        tempPiece = new NewPiece[qtyTempPieces];
+
+        listOfRowsOccupied = new int[boardSize.y];
+
+        for (int i = 0; i < boardSize.y; i++)
+        {
+            listOfRowsOccupied[i] = 0;
+        }
 
         for (int i = 0; i < tempPosition.Length; i++)
         {
@@ -144,6 +161,11 @@ public class Board : MonoBehaviour
         {
             Swap();
         }*/
+    }
+
+    public int[] GetListOfRowsOccupied()
+    {
+        return listOfRowsOccupied;
     }
 
     public void OnNewRandomPieceSelected()
@@ -437,6 +459,28 @@ public class Board : MonoBehaviour
         
     }
 
+    public void UpdateLinesForFoodSpawn()
+    {
+        RectInt bounds = this.Bounds;
+        int row;
+        int rowCounter = 0;
+        row = bounds.yMin;
+        
+        while (row < bounds.yMax)
+        {
+            if (isLineEmpty(row))
+            {
+                listOfRowsOccupied[rowCounter] = 0;
+            }
+            else
+            {
+                listOfRowsOccupied[rowCounter] = 1;
+            }
+            row++;
+            rowCounter++;
+        }
+    }
+
     private bool isLineFull(int row)
     {
         RectInt bounds = this.Bounds;
@@ -451,6 +495,39 @@ public class Board : MonoBehaviour
             }
 
             //there is no need to check if it is a ghost or not because we are going randomize the empty column
+        }
+
+        return true;
+    }
+
+    public bool isCellFull(int row, int col)
+    {
+        Vector3Int position = new Vector3Int(col, row, 0);
+
+        if (this.tilemap.HasTile(position))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
+    private bool isLineEmpty(int row)
+    {
+        RectInt bounds = this.Bounds;
+
+        for (int col = bounds.xMin; col < bounds.xMax; col++)
+        {
+            Vector3Int position = new Vector3Int(col, row, 0);
+
+            if (this.tilemap.HasTile(position))
+            {
+                return false;
+            }
+
         }
 
         return true;
