@@ -102,21 +102,28 @@ public class Board : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha0))
             {
                 SpawnPiece(tempPiece[0].data);
+                OnNewRandomPieceSelected();   
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                Debug.Log("You pressed the 1 key!");
+                SpawnPiece(tempPiece[1].data);
+                OnNewRandomPieceSelected();
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                Debug.Log("You pressed the 2 key!");
+                SpawnPiece(tempPiece[2].data);
+                OnNewRandomPieceSelected();
+
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                Debug.Log("You pressed the 3 key!");
+                SpawnPiece(tempPiece[3].data);
+                OnNewRandomPieceSelected();
             }
+
+           
         }
 
         //For debug purposes:
@@ -139,9 +146,17 @@ public class Board : MonoBehaviour
         }*/
     }
 
-    public void ChangeToRandomChoose(bool state)
+    public void OnNewRandomPieceSelected()
     {
-        choosingRandomPiece = state;
+        CleanRandomPieces();
+        choosingRandomPiece = false;
+        GetComponent<Piece>().EnableMovement();
+    }
+
+    public void ChangeToRandomChoose()
+    {
+        choosingRandomPiece = true;
+        GenerateRandomPieces();
     }
 
     private void Swap()
@@ -470,7 +485,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    private void UpLines()
+    public void UpLines()
     {
         RectInt bounds = this.Bounds;
 

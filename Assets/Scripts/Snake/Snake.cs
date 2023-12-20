@@ -124,11 +124,8 @@ public class Snake : MonoBehaviour
 
         if (gridMoveTimer > gridMoveTimerMax)
         {
-            
-
             snakeMovePositionList.Insert(0, gridPosition);
 
-            
             HandleDirection();
             
             gridPosition += gridMoveDirection;
@@ -139,6 +136,7 @@ public class Snake : MonoBehaviour
                 snakeMovePositionList.RemoveAt(snakeMovePositionList.Count - 1);
             }
 
+            //collide with itself
             for (int i = 0; i < snakeMovePositionList.Count; i++)
             {
                 if (snakeMovePositionList[i] == gridPosition)
@@ -146,7 +144,6 @@ public class Snake : MonoBehaviour
                     HandleDeath();
                 }
 
-                
             }
 
             if(gridPosition.x > initGridPos.x + width ||
@@ -176,8 +173,8 @@ public class Snake : MonoBehaviour
                 snakeBodySize++;
 
                 if(snakeBodySize >= maxSnakeBodySize){
-                    //HandleVictory();
-                    HandleDeath();
+                    HandleVictory();
+                    //HandleDeath();
                 }
             }
         }

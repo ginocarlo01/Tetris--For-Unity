@@ -1846,6 +1846,7 @@ MonoBehaviour:
   snakeBodySize: 0
   initSnakePos: {x: 5, y: 2}
   lostSnake: {fileID: 11400000, guid: bb4ba2373fb6b8445b3d1b9db65203f3, type: 2}
+  winSnake: {fileID: 11400000, guid: 4f465e4ca0d40004c923a88559d41852, type: 2}
   maxSnakeBodySize: 4
 --- !u!114 &852840733
 MonoBehaviour:
@@ -2800,6 +2801,7 @@ GameObject:
   - component: {fileID: 1185102025}
   - component: {fileID: 1185102026}
   - component: {fileID: 1185102027}
+  - component: {fileID: 1185102028}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -2961,6 +2963,18 @@ MonoBehaviour:
   signalEvent:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1185102023}
+        m_TargetAssemblyTypeName: Board, Assembly-CSharp
+        m_MethodName: UpLines
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1185102024}
         m_TargetAssemblyTypeName: Piece, Assembly-CSharp
         m_MethodName: EnableMovement
@@ -3001,9 +3015,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1185102024}
-        m_TargetAssemblyTypeName: Piece, Assembly-CSharp
-        m_MethodName: ClearThisLine
+--- !u!114 &1185102028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185102020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503efef0924a8464c934a1661edd4706, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  signal: {fileID: 11400000, guid: 4f465e4ca0d40004c923a88559d41852, type: 2}
+  signalEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1185102023}
+        m_TargetAssemblyTypeName: Board, Assembly-CSharp
+        m_MethodName: ChangeToRandomChoose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4330,6 +4360,7 @@ GameObject:
   - component: {fileID: 1815755363}
   - component: {fileID: 1815755364}
   - component: {fileID: 1815755365}
+  - component: {fileID: 1815755367}
   - component: {fileID: 1815755366}
   m_Layer: 0
   m_Name: GameHandler
@@ -4415,6 +4446,34 @@ MonoBehaviour:
       - m_Target: {fileID: 1815755364}
         m_TargetAssemblyTypeName: GameHandler, Assembly-CSharp
         m_MethodName: SpawnSnakeFood
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1815755367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815755362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503efef0924a8464c934a1661edd4706, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  signal: {fileID: 11400000, guid: 4f465e4ca0d40004c923a88559d41852, type: 2}
+  signalEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1815755364}
+        m_TargetAssemblyTypeName: GameHandler, Assembly-CSharp
+        m_MethodName: DestroySnakeFood
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
