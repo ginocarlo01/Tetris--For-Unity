@@ -17,44 +17,51 @@ public class Board : MonoBehaviour
     public Vector2Int boardSize = new Vector2Int(10, 20);
     public Vector3Int previewPosition;
     public Vector3Int holdPosition;
-    public bool canSave;
 
-    [SerializeField]
-    private int upScore;
 
-    [SerializeField]
-    private AudioClip cleanLineSFX;
 
-    [SerializeField]
-    private AudioClip cleanTetrisSFX;
+    private int[] listOfRowsOccupied;
 
-    [SerializeField]
-    private AudioClip dropPieceSFX;
 
-    [SerializeField]
-    private AudioClip gameOverSFX;
 
+    //signals:
+    [Header("Signals / Events")]
     [SerializeField]
     private Signal gameOverSignal;
-
     [SerializeField]
     private Signal pauseSignal;
 
+    [Header("Visuals")]
     [SerializeField]
     private Tile filledTile;
 
+    //states:
     private bool isPaused;
-
     private bool choosingRandomPiece;
+    public bool canSave;
 
+
+    [Header("Game values:")]
     [SerializeField]
-    private int[] listOfRowsOccupied;
-
+    private int qtyTempPieces = 4;
     [SerializeField]
-    private int qtyTempPieces;
+    int qtyLinesForTetris = 4;
+    [SerializeField]
+    private int upScore;
 
+    //SFX:
+    [Header("SFX")]
+    [SerializeField]
+    private AudioClip cleanLineSFX;
+    [SerializeField]
+    private AudioClip cleanTetrisSFX;
+    [SerializeField]
+    private AudioClip dropPieceSFX;
+    [SerializeField]
+    private AudioClip gameOverSFX;
+
+    //singleton:
     public static Board instance;
-   
 
     public RectInt Bounds
     {
@@ -452,7 +459,7 @@ public class Board : MonoBehaviour
         }
         if(rowsCleaned > 0)
         {
-            if (rowsCleaned < 4)
+            if (rowsCleaned < qtyLinesForTetris)
             {
 
                 ScoreManager.instance.UpdateScore(upScore * rowsCleaned);

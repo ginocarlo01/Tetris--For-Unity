@@ -24,6 +24,9 @@ public class Snake : MonoBehaviour
     SpriteRenderer spriteRenderer;
     [SerializeField]
     private int snakeBodySize;
+    [SerializeField]
+    private int qtyFoodEaten;
+    [SerializeField]
     private List<Vector2Int> snakeMovePositionList;
     [SerializeField]
     Vector2Int initSnakePos;
@@ -34,6 +37,8 @@ public class Snake : MonoBehaviour
     private Signal winSnake;
     [SerializeField]
     private int maxSnakeBodySize = 4;
+    [SerializeField]
+    bool firstInputGiven = false;
 
     public void Setup(LevelGrid levelGrid,int width, int height)
     {
@@ -67,15 +72,27 @@ public class Snake : MonoBehaviour
         nextMoveDirection = new Vector2Int(0, 0);
         gridMoveDirection = new Vector2Int(0,0); //default movement: zero
 
-        snakeBodySize = 0;
+        //snakeBodySize = 0;
+        firstInputGiven = false;
+        qtyFoodEaten = 0;
         snakeMovePositionList = new List<Vector2Int>();
+        
     }
 
     private void Update()
     {
-        if(!canBeControlled){ return; }
+        //for debug purposes:
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            snakeBodySize = 0;
+        }
+
+        if (!canBeControlled){ return; }
         HandleInput();
         HandleGridMovement();
+
+        
+        
     }
 
     
@@ -97,6 +114,14 @@ public class Snake : MonoBehaviour
         {
             nextMoveDirection = Vector2Int.left;   
         }
+        
+        if(!firstInputGiven)
+        {
+            if(nextMoveDirection != Vector2Int.zero)
+            {
+                firstInputGiven=true;
+            }
+        }
     }
 
     private void HandleDirection(){
@@ -116,11 +141,14 @@ public class Snake : MonoBehaviour
         {
             gridMoveDirection = Vector2Int.left;
         }
+        nextMoveDirection = new Vector2Int(0, 0);
     }
 
     private void HandleGridMovement()
     { 
         gridMoveTimer += Time.deltaTime;
+
+        
 
         if (gridMoveTimer > gridMoveTimerMax)
         {
@@ -136,8 +164,10 @@ public class Snake : MonoBehaviour
             
             if (cellFull)
             {
-               HandleDeath();
+                Debug.Log("Cell was full");
+                HandleDeath();
             }
+            
 
             if (snakeMovePositionList.Count >= snakeBodySize + 1)
             {
@@ -147,31 +177,41 @@ public class Snake : MonoBehaviour
             //collide with itself
             for (int i = 0; i < snakeMovePositionList.Count; i++)
             {
-                if (snakeMovePositionList[i] == gridPosition)
+                if (snakeMovePositionList[i] == gridPosition && firstInputGiven)
                 {
+                    
+                    Debug.Log("Collided with itself");
                     HandleDeath();
                 }
 
             }
 
+            
+
             //out of limits
-            if(gridPosition.x > initGridPos.x + width ||
+            if (gridPosition.x > initGridPos.x + width ||
                     gridPosition.x < initGridPos.x ||
                     gridPosition.y > initGridPos.y + height ||
                     gridPosition.y < initGridPos.y
                     ){
+                Debug.Log("Out of limits!");
                 HandleDeath();
                 }
 
-            for (int i = 0; i < snakeMovePositionList.Count; i++)
+            //it does not matter the order (from beginning to end or from end to beginning)
+            if (firstInputGiven)
             {
-                Vector2Int snakeMovePosition = snakeMovePositionList[i];
-                World_Sprite world_sprite = World_Sprite.Create(new Vector3(snakeMovePosition.x, snakeMovePosition.y), Vector3.one, Color.white);
-                world_sprite.SetSprite(GameAssets.Instance.snakeHeadSprite);
-                //create the sprite of the snake's part
-                FunctionTimer.Create(world_sprite.DestroySelf, gridMoveTimerMax);
-                //every time we move, destroy the body part
+                for (int i = snakeMovePositionList.Count - 1; i >= 0; i--)
+                {
+                    Vector2Int snakeMovePosition = snakeMovePositionList[i];
+                    World_Sprite world_sprite = World_Sprite.Create(new Vector3(snakeMovePosition.x, snakeMovePosition.y), Vector3.one, Color.white);
+                    world_sprite.SetSprite(GameAssets.Instance.snakeHeadSprite);
+                    //create the sprite of the snake's part
+                    FunctionTimer.Create(world_sprite.DestroySelf, gridMoveTimerMax);
+                    //every time we move, destroy the body part
+                }
             }
+            
 
             transform.position = new Vector3(gridPosition.x, gridPosition.y, 0);
             //transform.eulerAngles = new Vector3(0, 0, GetAngleFromVector(gridMoveDirection));
@@ -180,8 +220,9 @@ public class Snake : MonoBehaviour
             if (snakeAteFood)
             {
                 snakeBodySize++;
+                qtyFoodEaten++;
 
-                if(snakeBodySize >= maxSnakeBodySize){
+                if(qtyFoodEaten >= maxSnakeBodySize){
                     HandleVictory();
                 }
             }

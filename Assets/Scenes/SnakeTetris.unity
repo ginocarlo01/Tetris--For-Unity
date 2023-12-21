@@ -1844,10 +1844,13 @@ MonoBehaviour:
   gridMoveTimerMax: 0.2
   initGridPos: {x: -2, y: -9}
   snakeBodySize: 0
-  initSnakePos: {x: 5, y: 19}
+  qtyFoodEaten: 0
+  snakeMovePositionList: []
+  initSnakePos: {x: 5, y: 15}
   lostSnake: {fileID: 11400000, guid: bb4ba2373fb6b8445b3d1b9db65203f3, type: 2}
   winSnake: {fileID: 11400000, guid: 4f465e4ca0d40004c923a88559d41852, type: 2}
   maxSnakeBodySize: 4
+  firstInputGiven: 0
 --- !u!114 &852840733
 MonoBehaviour:
   m_ObjectHideFlags: 0
