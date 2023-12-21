@@ -16,16 +16,8 @@ public class GameHandler : MonoBehaviour
     [SerializeField]
     int height = 20;
 
-    [SerializeField]
-    private Board board;
     void Awake()
     {
-        /*int number = 0;
-        FunctionPeriodic.Create(() =>
-        {
-            CMDebug.TextPopupMouse("Ding! " + number);
-            number++;
-        }, .3f);*/
 
         levelGrid = new LevelGrid(width, height, ((int)transform.position.x), ((int)transform.position.y) + 1);
         snake.Setup(levelGrid, width, height);

@@ -6,39 +6,43 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
-    //grid
-    private Vector2Int gridMoveDirection;
-    private Vector2Int nextMoveDirection;
+    [Header("Important game values")]
     [SerializeField]
+    [Tooltip("Current position of the snake head in the grid")]
     private Vector2Int gridPosition;
-    private float gridMoveTimer;
+    [SerializeField]
+    [Tooltip("Where the grid starts according to the world position")]
+    Vector2Int initGridPos;
+    [SerializeField]
+    [Tooltip("Where the snake will start in the grid")]
+    Vector2Int initSnakePos;
+
+    [Header("Movement Data")]
+    [SerializeField]
+    [Tooltip("Quantity of food that needs to be eaten to finish game")]
+    private int maxSnakeBodySize = 4;
     [SerializeField]
     private float gridMoveTimerMax = 1f;
+    SpriteRenderer spriteRenderer;
+    private int snakeBodySize;
+    private int qtyFoodEaten;
+    private List<Vector2Int> snakeMovePositionList;
+    bool firstInputGiven = false;
+    private bool canBeControlled = false;
+
+    //Grid data:
+    private Vector2Int gridMoveDirection;
+    private Vector2Int nextMoveDirection;
+    private float gridMoveTimer;
     LevelGrid levelGrid;
-    [SerializeField]
-    Vector2Int initGridPos;
     int width;
     int height;
 
-    //snake
-    SpriteRenderer spriteRenderer;
-    [SerializeField]
-    private int snakeBodySize;
-    [SerializeField]
-    private int qtyFoodEaten;
-    [SerializeField]
-    private List<Vector2Int> snakeMovePositionList;
-    [SerializeField]
-    Vector2Int initSnakePos;
-    private bool canBeControlled = false;
+    [Header("Signals")]
     [SerializeField]
     private Signal lostSnake;
     [SerializeField]
     private Signal winSnake;
-    [SerializeField]
-    private int maxSnakeBodySize = 4;
-    [SerializeField]
-    bool firstInputGiven = false;
 
     public void Setup(LevelGrid levelGrid,int width, int height)
     {
@@ -185,8 +189,6 @@ public class Snake : MonoBehaviour
                 }
 
             }
-
-            
 
             //out of limits
             if (gridPosition.x > initGridPos.x + width ||

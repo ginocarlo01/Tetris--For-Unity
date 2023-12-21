@@ -6,23 +6,25 @@ using System.Linq;
 
 public class Board : MonoBehaviour
 {
+   
     public Tilemap tilemap { get; private set; }
     public TetrominoData[] tetrominoes;
     public Piece activePiece { get; private set; }
     public NewPiece nextPiece { get; private set; }
     public SavedPiece savedPiece { get; private set; }
+    [Header("Meta data")]
+    [Tooltip("Where the piece is spawned")]
     public Vector3Int spawnPosition;
     public NewPiece[] tempPiece;
+    [Tooltip("Positions of the random generated pieces")]
     public Vector3Int[] tempPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
+    [Tooltip("Was used only for Tetris, shows the next random piece")]
     public Vector3Int previewPosition;
+    [Tooltip("Was used only for Tetris, shows the saved piece")]
     public Vector3Int holdPosition;
 
-
-
     private int[] listOfRowsOccupied;
-
-
 
     //signals:
     [Header("Signals / Events")]
@@ -38,6 +40,7 @@ public class Board : MonoBehaviour
     //states:
     private bool isPaused;
     private bool choosingRandomPiece;
+    [HideInInspector]
     public bool canSave;
 
 
@@ -45,9 +48,15 @@ public class Board : MonoBehaviour
     [SerializeField]
     private int qtyTempPieces = 4;
     [SerializeField]
+    [Tooltip("Quantity of lines needed to make a tetris")]
     int qtyLinesForTetris = 4;
     [SerializeField]
+    [Tooltip("Score when a line is cleaned")]
     private int upScore;
+    [SerializeField]
+    [Tooltip("Score when a tetris is done")]
+    private int tetrisScore;
+
 
     //SFX:
     [Header("SFX")]
@@ -467,7 +476,7 @@ public class Board : MonoBehaviour
             }
             else
             {
-                ScoreManager.instance.UpdateScore(upScore * 6);
+                ScoreManager.instance.UpdateScore(tetrisScore);
                 SoundManager.instance.PlaySound(cleanTetrisSFX);
             }
         }

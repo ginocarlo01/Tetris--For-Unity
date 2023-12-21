@@ -1250,7 +1250,7 @@ GameObject:
   - component: {fileID: 482027276}
   - component: {fileID: 482027275}
   m_Layer: 0
-  m_Name: Grid (1)
+  m_Name: OldGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1841,16 +1841,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0}
-  gridMoveTimerMax: 0.2
   initGridPos: {x: -2, y: -9}
-  snakeBodySize: 0
-  qtyFoodEaten: 0
-  snakeMovePositionList: []
   initSnakePos: {x: 5, y: 15}
+  maxSnakeBodySize: 4
+  gridMoveTimerMax: 0.2
   lostSnake: {fileID: 11400000, guid: bb4ba2373fb6b8445b3d1b9db65203f3, type: 2}
   winSnake: {fileID: 11400000, guid: 4f465e4ca0d40004c923a88559d41852, type: 2}
-  maxSnakeBodySize: 4
-  firstInputGiven: 0
 --- !u!114 &852840733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2877,17 +2873,18 @@ MonoBehaviour:
   boardSize: {x: 10, y: 20}
   previewPosition: {x: 20, y: -1, z: 0}
   holdPosition: {x: 6666, y: -1, z: 0}
+  gameOverSignal: {fileID: 11400000, guid: 6322389489b0b5948a3a6dba130f23a7, type: 2}
+  pauseSignal: {fileID: 11400000, guid: 2896690a46ff0ec4698a755fc9bbc1fd, type: 2}
+  filledTile: {fileID: 11400000, guid: 8e20bf4004d73d245a978ce62dda7e3a, type: 2}
   canSave: 0
+  qtyTempPieces: 4
+  qtyLinesForTetris: 4
   upScore: 10
+  tetrisScore: 60
   cleanLineSFX: {fileID: 8300000, guid: 309ae5aa0bd139a419cb702a3b082ae8, type: 3}
   cleanTetrisSFX: {fileID: 8300000, guid: 2667a0a008b044e218b63df62e2be749, type: 3}
   dropPieceSFX: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
   gameOverSFX: {fileID: 8300000, guid: 4b4dd7245f6104c8c8eb07ccf6b386ed, type: 3}
-  gameOverSignal: {fileID: 11400000, guid: 6322389489b0b5948a3a6dba130f23a7, type: 2}
-  pauseSignal: {fileID: 11400000, guid: 2896690a46ff0ec4698a755fc9bbc1fd, type: 2}
-  filledTile: {fileID: 11400000, guid: 8e20bf4004d73d245a978ce62dda7e3a, type: 2}
-  listOfRowsOccupied: 
-  qtyTempPieces: 4
 --- !u!114 &1185102024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2904,12 +2901,6 @@ MonoBehaviour:
   lockDelay: 0.2
   stepTime: 0
   moveDelay: 0.1
-  moveTimer: 0
-  canMove: 1
-  horizontal: 0
-  vertical: 0
-  horizontalInt: 0
-  verticalInt: 0
   canBeControlled: 0
   tetrisLostSignal: {fileID: 11400000, guid: 15e463c264b5c1144a1af07c0e726fe2, type: 2}
 --- !u!114 &1185102025
@@ -3919,7 +3910,7 @@ GameObject:
   - component: {fileID: 1596684632}
   - component: {fileID: 1596684631}
   m_Layer: 0
-  m_Name: Border (1)
+  m_Name: OldBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

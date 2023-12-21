@@ -3,45 +3,46 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour
 {
+    //metadata:
     public Board board { get; private set; }
     public TetrominoData data { get; private set; }
     public Vector3Int position { get; private set; }
     public Vector3Int[] cells { get; private set; }
     public int rotationIndex { get; private set; }
-    
-    public float stepDelay = 1f;
-    public float lockDelay = 0.5f;
 
+    [Header("Piece movement values")]
+    [SerializeField]
+    [Tooltip("Time to move piece down")]
+    public float stepDelay = 1f;
+    [SerializeField]
+    [Tooltip("Time to lock the piece once it gets to the last line")]
+    public float lockDelay = 0.5f;
+    [HideInInspector]
     public float stepTime;
     private float lockTime;
 
     [SerializeField]
+    [Tooltip("Time to unlock piece movement")]
     private float moveDelay;
-    [SerializeField]
+    [HideInInspector]
     private float moveTimer = 0;
-    [SerializeField]
     private bool canMove = true;
 
-    [SerializeField]
-    private float horizontal = 0;
-
-    [SerializeField]
-    private float vertical = 0;
-
-    [SerializeField]
+    //Input data:
     private int horizontalInt = 0;
-
-    [SerializeField]
     private int verticalInt = 0;
 
+    //States:
     private bool isPaused;
+    [HideInInspector]
     public bool canBeControlled;
-
-    [SerializeField]
-    private Signal tetrisLostSignal;
-
+    //variables to control the visibility of the piece once it is switched to snake game
     bool disableThisPiece = false;
     bool alreadyDisabled = false;
+
+    [Header("Signals")]
+    [SerializeField]
+    private Signal tetrisLostSignal;
 
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
