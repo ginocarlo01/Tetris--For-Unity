@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
+using System.Linq;
 
 public class Board : MonoBehaviour
 {
@@ -53,7 +54,7 @@ public class Board : MonoBehaviour
     private int qtyTempPieces;
 
     public static Board instance;
-
+   
 
     public RectInt Bounds
     {
@@ -154,13 +155,20 @@ public class Board : MonoBehaviour
             GenerateRandomPieces();
         }
 
-
-
         /*
         if (Input.GetButtonDown("Save") && canSave)
         {
             Swap();
         }*/
+    }
+
+    public bool isCellFull(int row, int col)
+    {
+        Vector3Int position = new Vector3Int(row - 3, col - 10, 0);  //infelizmente não sei da onde esses números vieram mas funcionaram
+
+        return this.tilemap.HasTile(position);
+        
+
     }
 
     public int[] GetListOfRowsOccupied()
@@ -479,6 +487,12 @@ public class Board : MonoBehaviour
             row++;
             rowCounter++;
         }
+
+        if (listOfRowsOccupied[listOfRowsOccupied.Length - 2] == 1) //if the last line is full, game over!
+        {
+            Debug.Log("Game over!");
+            GameOver();
+        }
     }
 
     private bool isLineFull(int row)
@@ -500,20 +514,7 @@ public class Board : MonoBehaviour
         return true;
     }
 
-    public bool isCellFull(int row, int col)
-    {
-        Vector3Int position = new Vector3Int(col, row, 0);
-
-        if (this.tilemap.HasTile(position))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    }
+    
 
     private bool isLineEmpty(int row)
     {

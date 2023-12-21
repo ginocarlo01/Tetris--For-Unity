@@ -38,13 +38,13 @@ public class LevelGrid
 
     public void SpawnFood()
     {
+        int[] listOfRowsOccupied = Board.instance.GetListOfRowsOccupied();
+
+        if (listOfRowsOccupied[listOfRowsOccupied.Length - 2] == 1) { return; }
         
         do
         {
             foodGridPosition = new Vector2Int(Random.Range(initPosX, initPosX + width), Random.Range(initPosY, initPosY + height));
-            Debug.Log(foodGridPosition.y - initPosY);
-            Debug.Log(Board.instance.GetListOfRowsOccupied()[foodGridPosition.y - initPosY]);
-
         }
         while (snake.GetFullSnakeGridPosition().IndexOf(foodGridPosition) != -1 || Board.instance.GetListOfRowsOccupied()[foodGridPosition.y - initPosY] == 1); //gonna keep trying to find a new position while it is the same as the snake
         

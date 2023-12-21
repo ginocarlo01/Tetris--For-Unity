@@ -131,6 +131,14 @@ public class Snake : MonoBehaviour
             gridPosition += gridMoveDirection;
             gridMoveTimer = 0f;
 
+
+            bool cellFull = Board.instance.isCellFull(gridPosition.x, gridPosition.y - initGridPos.y);
+            
+            if (cellFull)
+            {
+               HandleDeath();
+            }
+
             if (snakeMovePositionList.Count >= snakeBodySize + 1)
             {
                 snakeMovePositionList.RemoveAt(snakeMovePositionList.Count - 1);
