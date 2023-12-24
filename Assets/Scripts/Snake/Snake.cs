@@ -27,8 +27,11 @@ public class Snake : MonoBehaviour
     private int snakeBodySize;
     private int qtyFoodEaten;
     private List<Vector2Int> snakeMovePositionList;
+
+    //States
     bool firstInputGiven = false;
     private bool canBeControlled = false;
+    private bool snakeEaterMode = false;
 
     //Grid data:
     private Vector2Int gridMoveDirection;
@@ -91,12 +94,16 @@ public class Snake : MonoBehaviour
             snakeBodySize = 0;
         }
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            snakeEaterMode = !snakeEaterMode;
+        }
+
+        //movement handling:
         if (!canBeControlled){ return; }
         HandleInput();
         HandleGridMovement();
 
-        
-        
     }
 
     
@@ -164,12 +171,18 @@ public class Snake : MonoBehaviour
             gridMoveTimer = 0f;
 
 
-            bool cellFull = Board.instance.isCellFull(gridPosition.x, gridPosition.y - initGridPos.y);
+            bool cellFull = Board.instance.IsCellFull(gridPosition.x, gridPosition.y - initGridPos.y);
             
             if (cellFull)
             {
-                Debug.Log("Cell was full");
-                HandleDeath();
+                if(snakeEaterMode){
+                    Board.instance.CleanCell(gridPosition.x, gridPosition.y - initGridPos.y);
+                }
+                else{
+                    Debug.Log("Cell was full");
+                    HandleDeath();
+                }
+                
             }
             
 

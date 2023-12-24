@@ -114,11 +114,6 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void ChangePauseState()
-    {
-        isPaused = !isPaused;
-    }
-
     private void Start()
     {
         SetNextPiece();
@@ -178,7 +173,18 @@ public class Board : MonoBehaviour
         }*/
     }
 
-    public bool isCellFull(int row, int col)
+    public void ChangePauseState()
+    {
+        isPaused = !isPaused;
+    }
+
+    public void CleanCell(int row, int col){
+        Vector3Int position = new Vector3Int(row - 3, col - 10, 0);  //infelizmente não sei da onde esses números vieram mas funcionaram
+
+        this.tilemap.SetTile(position, null);
+    }
+
+    public bool IsCellFull(int row, int col)
     {
         Vector3Int position = new Vector3Int(row - 3, col - 10, 0);  //infelizmente não sei da onde esses números vieram mas funcionaram
 
