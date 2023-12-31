@@ -27,7 +27,8 @@ public class Snake : MonoBehaviour
     private int snakeBodySize;
     private int qtyFoodEaten;
     private List<Vector2Int> snakeMovePositionList;
-
+    [SerializeField]
+    Joystick joystick;
     //States
     bool firstInputGiven = false;
     private bool canBeControlled = false;
@@ -36,6 +37,7 @@ public class Snake : MonoBehaviour
     //Grid data:
     private Vector2Int gridMoveDirection;
     private Vector2Int nextMoveDirection;
+    Vector2 move;
     private float gridMoveTimer;
     LevelGrid levelGrid;
     int width;
@@ -47,22 +49,27 @@ public class Snake : MonoBehaviour
     [SerializeField]
     private Signal winSnake;
 
-    public void Setup(LevelGrid levelGrid,int width, int height)
+    [Header("Debu")]
+    [SerializeField]
+    bool imortal;
+    public void Setup(LevelGrid levelGrid, int width, int height)
     {
         this.levelGrid = levelGrid;
         this.width = width;
-        this.height= height;
+        this.height = height;
     }
 
-    public void ActivateSnake(){
+    public void ActivateSnake()
+    {
         canBeControlled = true;
         spriteRenderer.enabled = true;
     }
 
-    public void DisableSnake(){
+    public void DisableSnake()
+    {
         canBeControlled = false;
         spriteRenderer.enabled = false;
-        
+
     }
 
     private void Awake()
@@ -73,17 +80,18 @@ public class Snake : MonoBehaviour
     }
 
 
-    public void RestartSnake(){
-        gridPosition = new Vector2Int(initGridPos.x + initSnakePos.x, initGridPos.y + initSnakePos.y); 
+    public void RestartSnake()
+    {
+        gridPosition = new Vector2Int(initGridPos.x + initSnakePos.x, initGridPos.y + initSnakePos.y);
         gridMoveTimer = gridMoveTimerMax;
         nextMoveDirection = new Vector2Int(0, 0);
-        gridMoveDirection = new Vector2Int(0,0); //default movement: zero
+        gridMoveDirection = new Vector2Int(0, 0); //default movement: zero
 
         //snakeBodySize = 0;
         firstInputGiven = false;
         qtyFoodEaten = 0;
         snakeMovePositionList = new List<Vector2Int>();
-        
+
     }
 
     private void Update()
@@ -100,55 +108,112 @@ public class Snake : MonoBehaviour
         }
 
         //movement handling:
-        if (!canBeControlled){ return; }
+        if (!canBeControlled) { return; }
         HandleInput();
         HandleGridMovement();
 
     }
 
-    
+
     private void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+#if UNITY_STANDALONE
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+
+         switch (v)
+        {
+            case 1:
+                nextMoveDirection = Vector2Int.up;
+                break;
+            case -1:
+                nextMoveDirection = Vector2Int.down;
+                break;
+        }
+
+        switch (h)
+        {
+            case 1:
+                nextMoveDirection = Vector2Int.right;
+                break;
+            case -1:
+                nextMoveDirection = Vector2Int.left;
+                break;
+        }
+#else
+        float h = joystick.Horizontal;
+        float v = joystick.Vertical;
+
+        Debug.Log(h);
+        Debug.Log(v);
+
+        switch (v)
+        {
+            case 1:
+                nextMoveDirection = Vector2Int.up;
+                break;
+            case -1:
+                nextMoveDirection = Vector2Int.down;
+                break;
+        }
+
+        switch (h)
+        {
+            case 1:
+                nextMoveDirection = Vector2Int.right;
+                break;
+            case -1:
+                nextMoveDirection = Vector2Int.left;
+                break;
+        }
+
+#endif
+
+        //Debug.Log("mine: " + move);
+        /*if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             nextMoveDirection = Vector2Int.up;
+
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            nextMoveDirection = Vector2Int.down;   
+            nextMoveDirection = Vector2Int.down;
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            nextMoveDirection = Vector2Int.right;  
+            nextMoveDirection = Vector2Int.right;
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            nextMoveDirection = Vector2Int.left;   
-        }
-        
-        if(!firstInputGiven)
+            nextMoveDirection = Vector2Int.left;
+        }*/
+
+        if (!firstInputGiven)
         {
-            if(nextMoveDirection != Vector2Int.zero)
+            if (nextMoveDirection != Vector2Int.zero)
             {
-                firstInputGiven=true;
+                firstInputGiven = true;
             }
         }
+
+        //if(v == 0 )
     }
 
-    private void HandleDirection(){
-        if (nextMoveDirection ==  Vector2Int.up && gridMoveDirection != Vector2Int.down)
+    private void HandleDirection()
+    {
+        if (nextMoveDirection == Vector2Int.up && gridMoveDirection != Vector2Int.down)
         {
             gridMoveDirection = Vector2Int.up;
         }
-        else if (nextMoveDirection ==  Vector2Int.down && gridMoveDirection != Vector2Int.up)
+        else if (nextMoveDirection == Vector2Int.down && gridMoveDirection != Vector2Int.up)
         {
             gridMoveDirection = Vector2Int.down;
         }
-        else if (nextMoveDirection ==  Vector2Int.right && gridMoveDirection != Vector2Int.left)
+        else if (nextMoveDirection == Vector2Int.right && gridMoveDirection != Vector2Int.left)
         {
             gridMoveDirection = Vector2Int.right;
         }
-        else if (nextMoveDirection ==  Vector2Int.left && gridMoveDirection != Vector2Int.right)
+        else if (nextMoveDirection == Vector2Int.left && gridMoveDirection != Vector2Int.right)
         {
             gridMoveDirection = Vector2Int.left;
         }
@@ -156,35 +221,38 @@ public class Snake : MonoBehaviour
     }
 
     private void HandleGridMovement()
-    { 
+    {
         gridMoveTimer += Time.deltaTime;
 
-        
+
 
         if (gridMoveTimer > gridMoveTimerMax)
         {
             snakeMovePositionList.Insert(0, gridPosition);
+            //snakeMovePositionList.Insert(0, move);
 
             HandleDirection();
-            
+
             gridPosition += gridMoveDirection;
             gridMoveTimer = 0f;
 
 
             bool cellFull = Board.instance.IsCellFull(gridPosition.x, gridPosition.y - initGridPos.y);
-            
+
             if (cellFull)
             {
-                if(snakeEaterMode){
+                if (snakeEaterMode)
+                {
                     Board.instance.CleanCell(gridPosition.x, gridPosition.y - initGridPos.y);
                 }
-                else{
+                else
+                {
                     Debug.Log("Cell was full");
                     HandleDeath();
                 }
-                
+
             }
-            
+
 
             if (snakeMovePositionList.Count >= snakeBodySize + 1)
             {
@@ -196,7 +264,7 @@ public class Snake : MonoBehaviour
             {
                 if (snakeMovePositionList[i] == gridPosition && firstInputGiven)
                 {
-                    
+
                     Debug.Log("Collided with itself");
                     HandleDeath();
                 }
@@ -208,10 +276,12 @@ public class Snake : MonoBehaviour
                     gridPosition.x < initGridPos.x ||
                     gridPosition.y > initGridPos.y + height ||
                     gridPosition.y < initGridPos.y
-                    ){
+                    )
+            {
+
                 Debug.Log("Out of limits!");
                 HandleDeath();
-                }
+            }
 
             //it does not matter the order (from beginning to end or from end to beginning)
             if (firstInputGiven)
@@ -223,12 +293,14 @@ public class Snake : MonoBehaviour
                     world_sprite.SetSprite(GameAssets.Instance.snakeHeadSprite);
                     //create the sprite of the snake's part
                     FunctionTimer.Create(world_sprite.DestroySelf, gridMoveTimerMax);
-                    //every time we move, destroy the body part
+                    //every time we move, destroy the body parts
                 }
             }
-            
 
+            //old set position
             transform.position = new Vector3(gridPosition.x, gridPosition.y, 0);
+            //new set position
+            //transform.position = new Vector3(move.x, move.y, 0);
             //transform.eulerAngles = new Vector3(0, 0, GetAngleFromVector(gridMoveDirection));
 
             bool snakeAteFood = levelGrid.TrySnakeEatFood(gridPosition);
@@ -237,14 +309,21 @@ public class Snake : MonoBehaviour
                 snakeBodySize++;
                 qtyFoodEaten++;
 
-                if(qtyFoodEaten >= maxSnakeBodySize){
+                if (qtyFoodEaten >= maxSnakeBodySize)
+                {
                     HandleVictory();
                 }
             }
         }
     }
 
-    public void HandleDeath(){
+    public void HandleDeath()
+    {
+
+#if UNITY_EDITOR
+        if (imortal)
+            return;
+#endif
         RestartSnake();
         DisableSnake();
         lostSnake.Raise();
@@ -252,6 +331,11 @@ public class Snake : MonoBehaviour
 
     public void HandleVictory()
     {
+
+#if UNITY_EDITOR
+        if (imortal)
+            return;
+#endif
         RestartSnake();
         DisableSnake();
         winSnake.Raise();
@@ -259,7 +343,7 @@ public class Snake : MonoBehaviour
 
     private float GetAngleFromVector(Vector2Int dir)
     {
-        float n = Mathf.Atan2 (dir.x, dir.y) * Mathf.Rad2Deg;
+        float n = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
         if (n < 0) n += 360;
         return n;
     }
