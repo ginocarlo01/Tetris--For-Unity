@@ -6,7 +6,8 @@ using System.Linq;
 
 public class Board : MonoBehaviour
 {
-   
+    [SerializeField]
+    Joystick joystick;
     public Tilemap tilemap { get; private set; }
     public TetrominoData[] tetrominoes;
     public Piece activePiece { get; private set; }
@@ -290,7 +291,7 @@ public class Board : MonoBehaviour
 
         //TetrominoData data = this.tetrominoes[random];
 
-        activePiece.Initialize(this, spawnPosition, data);
+        activePiece.Initialize(this, spawnPosition, data, joystick);
 
         if(IsValidPosition(activePiece, spawnPosition))
         {
@@ -311,7 +312,7 @@ public class Board : MonoBehaviour
 
         //TetrominoData data = this.tetrominoes[random];
 
-        activePiece.Initialize(this, spawnPosition, nextPiece.data);
+        activePiece.Initialize(this, spawnPosition, nextPiece.data, joystick);
 
         if(IsValidPosition(activePiece, spawnPosition)) //first we are going to change to a backup position and then move to the original position
         {
@@ -414,6 +415,9 @@ public class Board : MonoBehaviour
             //piece.cells[i] + piece.positon = posi��o global
             tilemap.SetTile(tilePosition, piece.data.tile);
         }
+
+        //MobileButtonsManager.instance.CurrState = new TetrisMobileInput(piece);
+        //MobileButtonsManager.instance.CurrState.OnBeginState();
     }
 
     

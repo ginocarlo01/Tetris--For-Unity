@@ -3,7 +3,7 @@ using CodeMonkey.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class Snake : MonoBehaviour
 {
     [Header("Important game values")]
@@ -35,6 +35,7 @@ public class Snake : MonoBehaviour
     private bool snakeEaterMode = false;
 
     //Grid data:
+    
     private Vector2Int gridMoveDirection;
     private Vector2Int nextMoveDirection;
     Vector2 move;
@@ -52,6 +53,11 @@ public class Snake : MonoBehaviour
     [Header("Debu")]
     [SerializeField]
     bool imortal;
+    [SerializeField]
+    bool noWin;
+
+    public Vector2Int GridMoveDirection { get => gridMoveDirection; set => gridMoveDirection = value; }
+
     public void Setup(LevelGrid levelGrid, int width, int height)
     {
         this.levelGrid = levelGrid;
@@ -77,15 +83,25 @@ public class Snake : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         ActivateSnake();
         RestartSnake();
+
+        //MobileButtonsManager.instance.CurrState = new SnakeMobileInput(this);
+
+        //MobileButtonsManager.instance.CurrState.OnBeginState();
     }
 
+    private void OnEnable()
+    {
+        MobileButtonsManager.instance.CurrState = new SnakeMobileInput(this);
 
+        MobileButtonsManager.instance.CurrState.OnBeginState();
+    }
+  
     public void RestartSnake()
     {
         gridPosition = new Vector2Int(initGridPos.x + initSnakePos.x, initGridPos.y + initSnakePos.y);
         gridMoveTimer = gridMoveTimerMax;
         nextMoveDirection = new Vector2Int(0, 0);
-        gridMoveDirection = new Vector2Int(0, 0); //default movement: zero
+        GridMoveDirection = new Vector2Int(0, 0); //default movement: zero
 
         //snakeBodySize = 0;
         firstInputGiven = false;
@@ -114,14 +130,14 @@ public class Snake : MonoBehaviour
 
     }
 
-
     private void HandleInput()
     {
-#if UNITY_STANDALONE
+#if UNITY_STANDALONE || UNITY_EDITOR
+
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
-         switch (v)
+        switch (v)
         {
             case 1:
                 nextMoveDirection = Vector2Int.up;
@@ -201,21 +217,21 @@ public class Snake : MonoBehaviour
 
     private void HandleDirection()
     {
-        if (nextMoveDirection == Vector2Int.up && gridMoveDirection != Vector2Int.down)
+        if (nextMoveDirection == Vector2Int.up && GridMoveDirection != Vector2Int.down)
         {
-            gridMoveDirection = Vector2Int.up;
+            GridMoveDirection = Vector2Int.up;
         }
-        else if (nextMoveDirection == Vector2Int.down && gridMoveDirection != Vector2Int.up)
+        else if (nextMoveDirection == Vector2Int.down && GridMoveDirection != Vector2Int.up)
         {
-            gridMoveDirection = Vector2Int.down;
+            GridMoveDirection = Vector2Int.down;
         }
-        else if (nextMoveDirection == Vector2Int.right && gridMoveDirection != Vector2Int.left)
+        else if (nextMoveDirection == Vector2Int.right && GridMoveDirection != Vector2Int.left)
         {
-            gridMoveDirection = Vector2Int.right;
+            GridMoveDirection = Vector2Int.right;
         }
-        else if (nextMoveDirection == Vector2Int.left && gridMoveDirection != Vector2Int.right)
+        else if (nextMoveDirection == Vector2Int.left && GridMoveDirection != Vector2Int.right)
         {
-            gridMoveDirection = Vector2Int.left;
+            GridMoveDirection = Vector2Int.left;
         }
         nextMoveDirection = new Vector2Int(0, 0);
     }
@@ -233,7 +249,7 @@ public class Snake : MonoBehaviour
 
             HandleDirection();
 
-            gridPosition += gridMoveDirection;
+            gridPosition += GridMoveDirection;
             gridMoveTimer = 0f;
 
 
@@ -327,18 +343,24 @@ public class Snake : MonoBehaviour
         RestartSnake();
         DisableSnake();
         lostSnake.Raise();
+
+        MobileButtonsManager.instance.CurrState = null;
+
+        //MobileButtonsManager.instance.CurrState.OnBeginState();
     }
 
     public void HandleVictory()
     {
-
+        
 #if UNITY_EDITOR
-        if (imortal)
+        if (noWin)
             return;
 #endif
         RestartSnake();
         DisableSnake();
         winSnake.Raise();
+
+        MobileButtonsManager.instance.CurrState = null;
     }
 
     private float GetAngleFromVector(Vector2Int dir)

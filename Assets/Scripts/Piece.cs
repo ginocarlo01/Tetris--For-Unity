@@ -9,6 +9,8 @@ public class Piece : MonoBehaviour
     public Vector3Int position { get; private set; }
     public Vector3Int[] cells { get; private set; }
     public int rotationIndex { get; private set; }
+    public int HorizontalInt { get => horizontalInt; set => horizontalInt = value; }
+    public int VerticalInt { get => verticalInt; set => verticalInt = value; }
 
     [Header("Piece movement values")]
     [SerializeField]
@@ -43,9 +45,10 @@ public class Piece : MonoBehaviour
     [Header("Signals")]
     [SerializeField]
     private Signal tetrisLostSignal;
-
-    public void Initialize(Board board, Vector3Int position, TetrominoData data)
+    Joystick joystick;
+    public void Initialize(Board board, Vector3Int position, TetrominoData data, Joystick joystick = null)
     {
+        this.joystick = joystick;
         this.board = board;
         this.data = data;
         this.position = position;
@@ -53,17 +56,31 @@ public class Piece : MonoBehaviour
         this.stepTime = Time.time + stepDelay;
         this.lockTime = 0;
 
-        if(this.cells == null)
+        if (this.cells == null)
         {
             this.cells = new Vector3Int[data.cells.Length];
         }
 
-        for(int i = 0; i < data.cells.Length; i++)
+        for (int i = 0; i < data.cells.Length; i++)
         {
             this.cells[i] = (Vector3Int)data.cells[i]; //converte para vector 3
         }
 
         canBeControlled = true;
+
+        Debug.Log(MobileButtonsManager.instance.CurrState);
+
+        if (MobileButtonsManager.instance.CurrState == null)
+        {
+
+            MobileButtonsManager.instance.CurrState = new TetrisMobileInput(this);
+
+            MobileButtonsManager.instance.CurrState.OnBeginState();
+        }
+        else
+        {
+            return;
+        }
     }
 
     public void ChangePauseState()
@@ -74,6 +91,10 @@ public class Piece : MonoBehaviour
     private void Start()
     {
         DisableMovement();
+
+        //MobileButtonsManager.instance.CurrState = new TetrisMobileInput(this);
+
+        //MobileButtonsManager.instance.CurrState.OnBeginState();
     }
 
     private void Update()
@@ -87,7 +108,7 @@ public class Piece : MonoBehaviour
 
         if (isPaused) { return; }
 
-        if(!canBeControlled) { return; }
+        if (!canBeControlled) { return; }
 
         this.board.Clear(this);
 
@@ -95,7 +116,7 @@ public class Piece : MonoBehaviour
 
         moveTimer += Time.deltaTime;
 
-        if(moveTimer >= moveDelay)
+        if (moveTimer >= moveDelay)
         {
             moveTimer = 0;
             if (!canMove)
@@ -108,23 +129,26 @@ public class Piece : MonoBehaviour
         {
             Rotate(1);
         }
-        
-        
-        horizontalInt = (int)(Input.GetAxis("Horizontal"));
-        verticalInt = (int)(Input.GetAxis("Vertical"));
 
+#if UNITY_STANDALONE || UNITY_EDITOR
+       // horizontalInt = (int)(Input.GetAxis("Horizontal"));
+       // verticalInt = (int)(Input.GetAxis("Vertical"));
+#else
+        horizontalInt = (int)joystick.Horizontal;
+        verticalInt = (int)joystick.Vertical;
+#endif
         if (canMove && horizontalInt != 0 || canMove && verticalInt != 0)
         {
             Move(new Vector2Int(horizontalInt, verticalInt));
 
         }
-            
+
         if (Input.GetButtonDown("Drop"))
         {
             HardDrop();
         }
 
-        if(Time.time >= stepTime) //� chamado a cada x segundos, time.time � o tempo atual 
+        if (Time.time >= stepTime) //� chamado a cada x segundos, time.time � o tempo atual 
         {
             Step();
         }
@@ -144,9 +168,9 @@ public class Piece : MonoBehaviour
 
         Move(Vector2Int.down);
 
-        if(this.lockTime >= this.lockDelay) //se o movimento acima for inv�lido, ele ir� chamar o lock
+        if (this.lockTime >= this.lockDelay) //se o movimento acima for inv�lido, ele ir� chamar o lock
         {
-            Lock() ;
+            Lock();
         }
     }
 
@@ -169,10 +193,12 @@ public class Piece : MonoBehaviour
         this.board.UpdateLinesForFoodSpawn();
         this.board.SpawnPiece(this.board.nextPiece.data);
         this.board.SetNextPiece();
+
         tetrisLostSignal.Raise();
+
     }
 
-    
+
 
     private void HardDrop()
     {
@@ -190,7 +216,7 @@ public class Piece : MonoBehaviour
         moveTimer = 0;
 
         Vector3Int newPosition = this.position;
-        
+
         newPosition.x += translation.x;
         newPosition.y += translation.y;
 
@@ -212,7 +238,7 @@ public class Piece : MonoBehaviour
 
         ApplyRotationMatrix(direction);
 
-        if(!TestWallKicks(this.rotationIndex, direction))
+        if (!TestWallKicks(this.rotationIndex, direction))
         {
             this.rotationIndex = originalIndex;
             ApplyRotationMatrix(-direction);
@@ -251,7 +277,7 @@ public class Piece : MonoBehaviour
     {
         int wallKickIndex = GetWallKickIndex(rotationIndex, rotationDirection); //retorna o index da tabela (linha)
 
-        for(int i = 0; i < this.data.wallKicks.GetLength(1); i++)
+        for (int i = 0; i < this.data.wallKicks.GetLength(1); i++)
         {
             Vector2Int translation = this.data.wallKicks[wallKickIndex, i]; //pega a pr�pria c�lula
 
@@ -268,7 +294,7 @@ public class Piece : MonoBehaviour
     {
         int wallKickIndex = rotationIndex * 2;
 
-        if(rotationDirection < 0)
+        if (rotationDirection < 0)
         {
             wallKickIndex--;
         }
@@ -278,7 +304,7 @@ public class Piece : MonoBehaviour
 
     private int Wrap(int input, int min, int max)
     {
-        if(input < min)
+        if (input < min)
         {
             return max - (min - input) % (max - min);
         }
