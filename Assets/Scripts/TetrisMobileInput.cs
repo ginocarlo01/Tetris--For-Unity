@@ -26,5 +26,5 @@ public class TetrisMobileInput : IMobileInputState
     void MobileInputUp() => piece.VerticalInt = 1;
     void MobileInputDown() => piece.VerticalInt = -1;
     void MobileInputLeft() => piece.HorizontalInt = -1;
-    void MobileInputRight() => piece.HorizontalInt = 1;
+    void MobileInputRight() { piece.HorizontalInt = 1; Debug.Log(piece.HorizontalInt); }
 }

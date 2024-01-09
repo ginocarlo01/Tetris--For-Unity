@@ -33,4 +33,5 @@ public class MobileButtonsManager : MonoBehaviour
         left.onClick.RemoveAllListeners();
         right.onClick.RemoveAllListeners();
     }
+
 }

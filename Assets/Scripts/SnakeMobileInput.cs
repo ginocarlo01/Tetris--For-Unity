@@ -26,6 +26,7 @@ public class SnakeMobileInput : IMobileInputState
     }
 
     void MobileInputUp() => snake.GridMoveDirection = Vector2Int.up;
+   // void exemplo() { snake.GridMoveDirection = Vector2Int.up; }
     void MobileInputDown() => snake.GridMoveDirection = Vector2Int.down;
     void MobileInputLeft() => snake.GridMoveDirection = Vector2Int.left;
     void MobileInputRight() => snake.GridMoveDirection = Vector2Int.right;

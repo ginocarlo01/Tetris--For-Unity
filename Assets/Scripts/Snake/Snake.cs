@@ -89,7 +89,7 @@ public class Snake : MonoBehaviour
         //MobileButtonsManager.instance.CurrState.OnBeginState();
     }
 
-    private void OnEnable()
+    private void Start()
     {
         MobileButtonsManager.instance.CurrState = new SnakeMobileInput(this);
 
@@ -340,12 +340,14 @@ public class Snake : MonoBehaviour
         if (imortal)
             return;
 #endif
+        MobileButtonsManager.instance.CurrState = null;
+        Debug.Log(MobileButtonsManager.instance.CurrState);
         RestartSnake();
         DisableSnake();
         lostSnake.Raise();
 
-        MobileButtonsManager.instance.CurrState = null;
-
+        
+        
         //MobileButtonsManager.instance.CurrState.OnBeginState();
     }
 

@@ -70,17 +70,7 @@ public class Piece : MonoBehaviour
 
         Debug.Log(MobileButtonsManager.instance.CurrState);
 
-        if (MobileButtonsManager.instance.CurrState == null)
-        {
-
-            MobileButtonsManager.instance.CurrState = new TetrisMobileInput(this);
-
-            MobileButtonsManager.instance.CurrState.OnBeginState();
-        }
-        else
-        {
-            return;
-        }
+        
     }
 
     public void ChangePauseState()
@@ -92,9 +82,7 @@ public class Piece : MonoBehaviour
     {
         DisableMovement();
 
-        //MobileButtonsManager.instance.CurrState = new TetrisMobileInput(this);
-
-        //MobileButtonsManager.instance.CurrState.OnBeginState();
+       
     }
 
     private void Update()
@@ -127,7 +115,7 @@ public class Piece : MonoBehaviour
 
         if (Input.GetButtonDown("Rotate"))
         {
-            Rotate(1);
+            //Rotate(1);
         }
 
 #if UNITY_STANDALONE || UNITY_EDITOR
@@ -179,6 +167,20 @@ public class Piece : MonoBehaviour
         disableThisPiece = false;
         alreadyDisabled = false;
         canBeControlled = true;
+
+        Debug.Log(MobileButtonsManager.instance.CurrState);
+
+        if (MobileButtonsManager.instance.CurrState == null)
+        {
+
+            MobileButtonsManager.instance.CurrState = new TetrisMobileInput(this);
+
+            MobileButtonsManager.instance.CurrState.OnBeginState();
+        }
+        else
+        {
+            return;
+        }
     }
     public void DisableMovement()
     {
