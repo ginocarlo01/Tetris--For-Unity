@@ -11,7 +11,7 @@ public enum Directions { Up, Down, Left, Right }
 
 public class MobileButtonsManager : MonoBehaviour
 {
-    public Button up, down, left, right;
+    public Button up, down, left, right, rotate;
     public static MobileButtonsManager instance;
     public EventTrigger test;
 
@@ -38,8 +38,10 @@ public class MobileButtonsManager : MonoBehaviour
         RemoveButtonListeners(up);
         RemoveButtonListeners(down);
         RemoveButtonListeners(left);
+        RemoveButtonListeners(rotate);
         RemoveButtonListeners(right);
 
+        rotate.onClick.RemoveAllListeners();
         up.onClick.RemoveAllListeners();
         down.onClick.RemoveAllListeners();
         left.onClick.RemoveAllListeners();

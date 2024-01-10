@@ -103,11 +103,21 @@ public class Snake : MonoBehaviour
         nextMoveDirection = new Vector2Int(0, 0);
         GridMoveDirection = new Vector2Int(0, 0); //default movement: zero
 
+
+        
+
         //snakeBodySize = 0;
         firstInputGiven = false;
         qtyFoodEaten = 0;
         snakeMovePositionList = new List<Vector2Int>();
 
+    }
+
+    public void ChangeInputToSnake()
+    {
+        MobileButtonsManager.instance.CurrState = new SnakeMobileInput(this);
+
+        MobileButtonsManager.instance.CurrState.OnBeginState();
     }
 
     private void Update()

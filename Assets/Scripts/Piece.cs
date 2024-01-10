@@ -1,4 +1,5 @@
 
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Piece : MonoBehaviour
@@ -22,7 +23,10 @@ public class Piece : MonoBehaviour
     [HideInInspector]
     public float stepTime;
     private float lockTime;
-
+    [HideInInspector]
+    public bool shouldRotate;
+    [HideInInspector]
+    public bool shouldHardDrop;
     [SerializeField]
     [Tooltip("Time to unlock piece movement")]
     private float moveDelay;
@@ -45,7 +49,11 @@ public class Piece : MonoBehaviour
     [Header("Signals")]
     [SerializeField]
     private Signal tetrisLostSignal;
+
+    //mobile
     Joystick joystick;
+
+    
     public void Initialize(Board board, Vector3Int position, TetrominoData data, Joystick joystick = null)
     {
         this.joystick = joystick;
@@ -68,8 +76,7 @@ public class Piece : MonoBehaviour
 
         canBeControlled = true;
 
-        Debug.Log(MobileButtonsManager.instance.CurrState);
-
+      
         
     }
 
@@ -113,9 +120,10 @@ public class Piece : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Rotate"))
+        if (Input.GetButtonDown("Rotate") || shouldRotate)
         {
-            //Rotate(1);
+            shouldRotate = false;
+            Rotate(1);
         }
 
 #if UNITY_STANDALONE || UNITY_EDITOR
@@ -131,8 +139,9 @@ public class Piece : MonoBehaviour
 
         }
 
-        if (Input.GetButtonDown("Drop"))
+        if (Input.GetButtonDown("Drop") || shouldHardDrop)
         {
+            shouldHardDrop = false;
             HardDrop();
         }
 
@@ -186,6 +195,8 @@ public class Piece : MonoBehaviour
     {
         disableThisPiece = true;
         canBeControlled = false;
+
+
     }
 
     private void Lock()
@@ -233,7 +244,7 @@ public class Piece : MonoBehaviour
         return valid;
     }
 
-    private void Rotate(int direction)
+    public void Rotate(int direction)
     {
         int originalIndex = this.rotationIndex;
         this.rotationIndex = Wrap(this.rotationIndex + direction, 0, 4);

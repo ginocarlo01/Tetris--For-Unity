@@ -22,20 +22,19 @@ public class TetrisMobileInput : IMobileInputState
         MobileButtonsManager.instance.left.onClick.AddListener(MobileInputLeft);
         MobileButtonsManager.instance.right.onClick.AddListener(MobileInputRight);
 
-        
+        MobileButtonsManager.instance.up.OnPointerDown(MobileInputUp);
         */
-        //MobileButtonsManager.instance.up.OnPointerDown(MobileInputUp);
 
-        AddButtonListeners(MobileButtonsManager.instance.up, Directions.Up);
+        MobileButtonsManager.instance.rotate.onClick.AddListener(RotatePiece);
+        MobileButtonsManager.instance.up.onClick.AddListener(HardDropPiece);
+
         AddButtonListeners(MobileButtonsManager.instance.down, Directions.Down);
         AddButtonListeners(MobileButtonsManager.instance.left, Directions.Left);
         AddButtonListeners(MobileButtonsManager.instance.right, Directions.Right);
     }
+    void HardDropPiece() { piece.shouldHardDrop = true; }
 
-    void MobileInputUp() => piece.VerticalInt = 1;
-    void MobileInputDown() => piece.VerticalInt = -1;
-    void MobileInputLeft() { piece.HorizontalInt = -1;  }
-    void MobileInputRight() { piece.HorizontalInt = 1;  }
+    void RotatePiece() { piece.shouldRotate = true;  }
 
     void AddButtonListeners(Button button, Directions direction)
     {
@@ -81,7 +80,7 @@ public class TetrisMobileInput : IMobileInputState
 
     void OnButtonRelease(Directions direction)
     {
-        Debug.Log(direction + " button released");
+        //Debug.Log(direction + " button released");
 
         // Reset the corresponding input when the button is released
         if (direction == Directions.Right || direction == Directions.Left)
