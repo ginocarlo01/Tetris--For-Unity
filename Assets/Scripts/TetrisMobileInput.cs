@@ -32,6 +32,8 @@ public class TetrisMobileInput : IMobileInputState
         AddButtonListeners(MobileButtonsManager.instance.left, Directions.Left);
         AddButtonListeners(MobileButtonsManager.instance.right, Directions.Right);
     }
+
+    public void OnUpdate() { }
     void HardDropPiece() { piece.shouldHardDrop = true; }
 
     void RotatePiece() { piece.shouldRotate = true;  }

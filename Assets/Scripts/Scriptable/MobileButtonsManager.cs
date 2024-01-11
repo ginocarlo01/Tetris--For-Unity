@@ -14,10 +14,13 @@ public class MobileButtonsManager : MonoBehaviour
     public Button up, down, left, right, rotate;
     public static MobileButtonsManager instance;
     public EventTrigger test;
-
+    private float width;
+    private float height;
     [SerializeField]
     public IMobileInputState curState;
     public IMobileInputState CurrState { get => curState; set => curState = value; }
+    public float Width { get => width; }
+    public float Height { get => height; }
 
     // Start is called before the first frame update
     void Awake()
@@ -25,12 +28,17 @@ public class MobileButtonsManager : MonoBehaviour
         instance = this;
 
         // Add listeners for button press and release
-        
 
+        width = (float)Screen.width / 2.0f;
+        height = (float)Screen.height / 2.0f;
         Debug.Log(curState);
     }
 
-    
+    private void Update()
+    {
+        if(curState!=null)
+        curState.OnUpdate();
+    }
 
     public void Reset()
     {
