@@ -8,7 +8,8 @@ public class DragMobileInputTest : MonoBehaviour
     private Vector3 position;
     private float width;
     private float height;
-
+    Vector2 startPosition, endPosition;
+    string direction;
     void Awake()
     {
         width = (float)Screen.width / 2.0f;
@@ -30,15 +31,41 @@ public class DragMobileInputTest : MonoBehaviour
 
     void Update()
     {
+
+
+        
         // Handle screen touches.
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
-
+            if(touch.phase == TouchPhase.Began)
+            {
+                startPosition = touch.position;
+            }
             // Move the cube if the screen has the finger moving.
-            if (touch.phase == TouchPhase.Moved)
+            if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Ended)
             {
                 
+                endPosition = touch.position;
+                float x = endPosition.x - startPosition.x;
+                float y = endPosition.y - startPosition.y;
+
+                if(Mathf.Abs(x) == 0 && Mathf.Abs(y) == 0)
+                {
+                    direction = "Tappad";
+                    Debug.Log(direction);
+
+                }else if(Mathf.Abs(x) > Mathf.Abs(y))
+                {
+                    direction = x > 0 ? "Right" : "Left";
+                    Debug.Log(direction);
+                }
+                else
+                {
+                    direction = y > 0 ? "Up" : "Down";
+                    Debug.Log(direction);
+                }
+                /*
                 Vector2 pos = touch.position;
                 pos.x = (pos.x - width) / width;
                 pos.y = (pos.y - height) / height;
@@ -47,7 +74,11 @@ public class DragMobileInputTest : MonoBehaviour
                 int v;
 
                 position = new Vector3(-pos.x, pos.y, 0.0f);
-                if (pos.x > 0)
+                Debug.Log(touch.radius);
+                */
+
+                /*
+                 if (pos.x > 0)
                 {
                     h = 1;
                     
@@ -68,9 +99,12 @@ public class DragMobileInputTest : MonoBehaviour
                     v = -1;
                     Debug.Log("v: " + v);
                 }
+                */
                 // Position the cube.
                 cube.position = position;
             }
+
+
 
             
 

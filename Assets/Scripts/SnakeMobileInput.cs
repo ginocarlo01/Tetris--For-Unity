@@ -7,6 +7,7 @@ public class SnakeMobileInput : IMobileInputState
 {
     Snake snake;
     float width, height;
+    Vector2 startPosition, endPosition;
     //ButtonsManager buttonsManager;
     public SnakeMobileInput(Snake snake=null)
     {
@@ -35,42 +36,33 @@ public class SnakeMobileInput : IMobileInputState
         {
             Touch touch = Input.GetTouch(0);
 
+            if (touch.phase == TouchPhase.Began)
+            {
+                startPosition = touch.position;
+            }
             // Move the cube if the screen has the finger moving.
-            if (touch.phase == TouchPhase.Moved)
+            if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Ended)
             {
 
-                Vector2 pos = touch.position;
-                pos.x = (pos.x - width) / width;
-                pos.y = (pos.y - height) / height;
+                endPosition = touch.position;
+                float x = endPosition.x - startPosition.x;
+                float y = endPosition.y - startPosition.y;
 
-                int h;
-                int v;
+                if (Mathf.Abs(x) == 0 && Mathf.Abs(y) == 0)
+                {
+                    //direction = "Tappad";
+                    //Debug.Log(direction);
 
-                //position = new Vector3(-pos.x, pos.y, 0.0f);
-                if (pos.x > 0)
-                {
-                    h = 1;
-                    MobileInputRight();
-                    //touch.a
-                    //Debug.Log("h: " + h);
                 }
-                if (pos.x < 0)
+                else if (Mathf.Abs(x) > Mathf.Abs(y))
                 {
-                    h = -1;
-                    MobileInputLeft();
-                    Debug.Log("h: " + h);
+                    snake.GridMoveDirection = x > 0 ? Vector2Int.right : Vector2Int.left;
+                    //Debug.Log(direction);
                 }
-                if (pos.y > 0)
+                else
                 {
-                    v = 1;
-                    MobileInputUp();
-                    Debug.Log("v: " + v);
-                }
-                if (pos.y < 0)
-                {
-                    v = -1;
-                    MobileInputDown();
-                    Debug.Log("v: " + v);
+                    snake.GridMoveDirection = y > 0 ? Vector2Int.up : Vector2Int.down;
+                    //Debug.Log(direction);
                 }
                 // Position the cube.
                 //cube.position = position;
