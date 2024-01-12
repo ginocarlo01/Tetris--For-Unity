@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class TetrisMobileInput : IMobileInputState
 {
     Piece piece;
+    private Vector2 startPosition;
+    private Vector2 endPosition;
+
     public TetrisMobileInput(Piece piece)
     {
         this.piece = piece;
@@ -33,7 +36,47 @@ public class TetrisMobileInput : IMobileInputState
         AddButtonListeners(MobileButtonsManager.instance.right, Directions.Right);
     }
 
-    public void OnUpdate() { }
+    public void OnUpdate() 
+    {
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                startPosition = touch.position;
+            }
+            // Move the cube if the screen has the finger moving.
+            if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Ended)
+            {
+
+                endPosition = touch.position;
+                float x = endPosition.x - startPosition.x;
+                float y = endPosition.y - startPosition.y;
+
+                if (Mathf.Abs(x) == 0 && Mathf.Abs(y) == 0)
+                {
+
+                    piece.HorizontalInt = 0;
+                    piece.VerticalInt = 0;
+
+                }
+                else if (Mathf.Abs(x) > Mathf.Abs(y))
+                {
+                    piece.HorizontalInt = x > 0 ? 1 : -1;
+                    //Debug.Log(direction);
+                }
+                else
+                {
+                    piece.VerticalInt = x > 0 ? 0 : -1;
+                   // snake.GridMoveDirection = y > 0 ? Vector2Int.up : Vector2Int.down;
+                    //Debug.Log(direction);
+                }
+                // Position the cube.
+                //cube.position = position;
+            }
+        }
+    }
     void HardDropPiece() { piece.shouldHardDrop = true; }
 
     void RotatePiece() { piece.shouldRotate = true;  }

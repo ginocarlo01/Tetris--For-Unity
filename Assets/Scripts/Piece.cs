@@ -126,12 +126,9 @@ public class Piece : MonoBehaviour
             Rotate(1);
         }
 
-#if UNITY_STANDALONE || UNITY_EDITOR
-       // horizontalInt = (int)(Input.GetAxis("Horizontal"));
-       // verticalInt = (int)(Input.GetAxis("Vertical"));
-#else
-        horizontalInt = (int)joystick.Horizontal;
-        verticalInt = (int)joystick.Vertical;
+#if UNITY_STANDALONE//|| UNITY_EDITOR
+        horizontalInt = (int)(Input.GetAxis("Horizontal"));
+        verticalInt = (int)(Input.GetAxis("Vertical"));
 #endif
         if (canMove && horizontalInt != 0 || canMove && verticalInt != 0)
         {
