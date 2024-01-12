@@ -88,8 +88,6 @@ public class Piece : MonoBehaviour
     private void Start()
     {
         DisableMovement();
-
-       
     }
 
     private void Update()

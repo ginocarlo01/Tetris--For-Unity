@@ -10,6 +10,7 @@ public class DragMobileInputTest : MonoBehaviour
     private float height;
     Vector2 startPosition, endPosition;
     string direction;
+    bool stopTouch;
     void Awake()
     {
         width = (float)Screen.width / 2.0f;
@@ -31,9 +32,6 @@ public class DragMobileInputTest : MonoBehaviour
 
     void Update()
     {
-
-
-        
         // Handle screen touches.
         if (Input.touchCount > 0)
         {
@@ -49,22 +47,26 @@ public class DragMobileInputTest : MonoBehaviour
                 endPosition = touch.position;
                 float x = endPosition.x - startPosition.x;
                 float y = endPosition.y - startPosition.y;
+                //if (!stopTouch)
+                //{
+                    if (Mathf.Abs(x) == 0 && Mathf.Abs(y) == 0)
+                    {
+                        direction = "Tappad";
+                        Debug.Log(direction);
 
-                if(Mathf.Abs(x) == 0 && Mathf.Abs(y) == 0)
-                {
-                    direction = "Tappad";
-                    Debug.Log(direction);
+                    }
+                    else if (Mathf.Abs(x) > Mathf.Abs(y))
+                    {
+                        direction = x > 0 ? "Right" : "Left";
+                        Debug.Log(direction);
+                    }
+                    else
+                    {
+                        direction = y > 0 ? "Up" : "Down";
+                        Debug.Log(direction + "y: " + y);
+                    }
+              //  }
 
-                }else if(Mathf.Abs(x) > Mathf.Abs(y))
-                {
-                    direction = x > 0 ? "Right" : "Left";
-                    Debug.Log(direction);
-                }
-                else
-                {
-                    direction = y > 0 ? "Up" : "Down";
-                    Debug.Log(direction);
-                }
                 /*
                 Vector2 pos = touch.position;
                 pos.x = (pos.x - width) / width;
@@ -101,13 +103,12 @@ public class DragMobileInputTest : MonoBehaviour
                 }
                 */
                 // Position the cube.
-                cube.position = position;
+                //cube.position = position;
             }
-
-
-
-            
-
+            if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+            {
+                
+            }
             if (Input.touchCount == 2)
             {
                 touch = Input.GetTouch(1);

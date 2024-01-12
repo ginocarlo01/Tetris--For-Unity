@@ -51,7 +51,7 @@ public class SnakeMobileInput : IMobileInputState
                 if (Mathf.Abs(x) == 0 && Mathf.Abs(y) == 0)
                 {
                     //direction = "Tappad";
-                    //Debug.Log(direction);
+                    snake.GridMoveDirection = Vector2Int.zero;
 
                 }
                 else if (Mathf.Abs(x) > Mathf.Abs(y))

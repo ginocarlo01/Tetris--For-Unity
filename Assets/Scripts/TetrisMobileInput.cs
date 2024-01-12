@@ -19,6 +19,7 @@ public class TetrisMobileInput : IMobileInputState
         Debug.Log("Tetris input");
 #endif
         MobileButtonsManager.instance.Reset();
+
         /*
         MobileButtonsManager.instance.up.onClick.AddListener(MobileInputUp);
         MobileButtonsManager.instance.down.onClick.AddListener(MobileInputDown);
@@ -51,12 +52,13 @@ public class TetrisMobileInput : IMobileInputState
             {
 
                 endPosition = touch.position;
+
                 float x = endPosition.x - startPosition.x;
                 float y = endPosition.y - startPosition.y;
 
                 if (Mathf.Abs(x) == 0 && Mathf.Abs(y) == 0)
                 {
-
+                    piece.shouldRotate = true;
                     piece.HorizontalInt = 0;
                     piece.VerticalInt = 0;
 
@@ -68,13 +70,26 @@ public class TetrisMobileInput : IMobileInputState
                 }
                 else
                 {
-                    piece.VerticalInt = x > 0 ? 0 : -1;
-                   // snake.GridMoveDirection = y > 0 ? Vector2Int.up : Vector2Int.down;
+                    piece.VerticalInt = y > 0 ? 0 : -1;
+                    //snake.GridMoveDirection = y > 0 ? Vector2Int.up : Vector2Int.down;
                     //Debug.Log(direction);
                 }
                 // Position the cube.
                 //cube.position = position;
             }
+
+            if(touch.phase == TouchPhase.Ended)
+            {
+                //piece.DisableMovement();
+                piece.HorizontalInt = 0;
+                piece.VerticalInt = 0;
+            }
+        }
+        else
+        {
+            //piece.DisableMovement();
+            piece.HorizontalInt = 0;
+            piece.VerticalInt = 0;
         }
     }
     void HardDropPiece() { piece.shouldHardDrop = true; }
