@@ -30,14 +30,14 @@ public class TetrisMobileInput : IMobileInputState
         */
 
         MobileButtonsManager.instance.rotate.onClick.AddListener(RotatePiece);
-        MobileButtonsManager.instance.up.onClick.AddListener(HardDropPiece);
+        MobileButtonsManager.instance.up.onClick.AddListener(()=>HardDropPiece());
 
         AddButtonListeners(MobileButtonsManager.instance.down, Directions.Down);
         AddButtonListeners(MobileButtonsManager.instance.left, Directions.Left);
         AddButtonListeners(MobileButtonsManager.instance.right, Directions.Right);
     }
 
-    public void OnUpdate() 
+    public void OnUpdate()
     {
         if (Input.touchCount > 0)
         {
@@ -78,11 +78,13 @@ public class TetrisMobileInput : IMobileInputState
                 //cube.position = position;
             }
 
-            if(touch.phase == TouchPhase.Ended)
+            if (touch.phase == TouchPhase.Ended)
             {
                 //piece.DisableMovement();
                 piece.HorizontalInt = 0;
                 piece.VerticalInt = 0;
+
+                HardDropPiece(true);
             }
         }
         else
@@ -92,9 +94,23 @@ public class TetrisMobileInput : IMobileInputState
             piece.VerticalInt = 0;
         }
     }
-    void HardDropPiece() { piece.shouldHardDrop = true; }
+    void HardDropPiece(bool useDistance = false)
+    {
+        if (useDistance)
+        {
+            float distance = Vector3.Distance(startPosition, endPosition);
+            Debug.Log("Distancia: " + distance);
 
-    void RotatePiece() { piece.shouldRotate = true;  }
+            if (distance > 1000.0f)
+            {
+              piece.shouldHardDrop = true;
+            }
+        }
+        else
+            piece.shouldHardDrop = true;
+    }
+
+    void RotatePiece() { piece.shouldRotate = true; }
 
     void AddButtonListeners(Button button, Directions direction)
     {
