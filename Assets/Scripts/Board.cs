@@ -285,6 +285,30 @@ public class Board : MonoBehaviour
         }
     }
 
+    public void SelectPiece(int value)
+    {
+        switch (value)
+        {
+            case 0:
+                SpawnPiece(tempPiece[value].data);
+                OnNewRandomPieceSelected();
+                break; 
+            case 1:
+                SpawnPiece(tempPiece[value].data);
+                OnNewRandomPieceSelected();
+                break;
+            case 2:
+                SpawnPiece(tempPiece[value].data);
+                OnNewRandomPieceSelected();
+                break;
+            case 3:
+                SpawnPiece(tempPiece[value].data);
+                OnNewRandomPieceSelected();
+                break; 
+        }
+
+        //OnNewRandomPieceSelected();
+    }
     public void SpawnPiece(TetrominoData data)
     {
         //int random = Random.Range(0, this.tetrominoes.Length);
