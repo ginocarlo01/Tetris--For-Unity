@@ -57,6 +57,7 @@ public class Snake : MonoBehaviour
     bool noWin;
 
     public Vector2Int GridMoveDirection { get => gridMoveDirection; set => gridMoveDirection = value; }
+    public bool FirstInputGiven { get => firstInputGiven; set => firstInputGiven = value; }
 
     public void Setup(LevelGrid levelGrid, int width, int height)
     {

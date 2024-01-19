@@ -190,8 +190,6 @@ public class Piece : MonoBehaviour
     {
         disableThisPiece = true;
         canBeControlled = false;
-
-
     }
 
     private void Lock()

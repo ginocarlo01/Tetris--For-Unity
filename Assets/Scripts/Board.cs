@@ -129,6 +129,7 @@ public class Board : MonoBehaviour
 
         if (choosingRandomPiece)
         {
+#if UNITY_STANDALONE || UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.Alpha0))
             {
                 SpawnPiece(tempPiece[0].data);
@@ -166,7 +167,7 @@ public class Board : MonoBehaviour
         {
             GenerateRandomPieces();
         }
-
+#endif
         /*
         if (Input.GetButtonDown("Save") && canSave)
         {
@@ -380,9 +381,11 @@ public class Board : MonoBehaviour
 
     private void GameOver()
     {
+#if UNITY_EDITOR
+        Debug.Log("Game Over");
+        //Time.timeScale = 0;
+#endif
         this.tilemap.ClearAllTiles();
-
-        
 
         SoundManager.instance.PlaySound(gameOverSFX);
 
@@ -540,7 +543,7 @@ public class Board : MonoBehaviour
 
         if (listOfRowsOccupied[listOfRowsOccupied.Length - 2] == 1) //if the last line is full, game over!
         {
-            Debug.Log("Game over!");
+            //Debug.Log("Game over!");
             GameOver();
         }
     }

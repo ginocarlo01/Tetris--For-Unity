@@ -34,6 +34,7 @@ public class SnakeMobileInput : IMobileInputState
     {
         if (Input.touchCount > 0)
         {
+           snake.FirstInputGiven = true;
             Touch touch = Input.GetTouch(0);
 
             if (touch.phase == TouchPhase.Began)
