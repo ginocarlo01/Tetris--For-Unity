@@ -2358,7 +2358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   screens:
   - {fileID: 776472172}
-  defaultScreen: GameOverScreen
+  defaultScreen: Menu
 --- !u!1 &776472172
 GameObject:
   m_ObjectHideFlags: 0
@@ -6839,7 +6839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8e339ee6059d64b87cae61ea94d7c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverScreen: {fileID: 0}
+  gameOverScreen: {fileID: 776472172}
 --- !u!4 &1698263997
 Transform:
   m_ObjectHideFlags: 0

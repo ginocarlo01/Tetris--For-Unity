@@ -431,6 +431,7 @@ public class Board : MonoBehaviour
         }
 
         JsonReadWriteSystem.INSTANCE.Save();
+        GameManager.instance.GameOver();
     }
 
     public void Set(Piece piece)
