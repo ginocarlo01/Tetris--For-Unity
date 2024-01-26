@@ -98,10 +98,11 @@ public class Piece : MonoBehaviour
             alreadyDisabled = true;
         }
 
+        if (GameManager.instance.state != GameState.Play) {return;}
 
-        if (isPaused) { return; }
+       // if (isPaused) { return; }
 
-        if (!canBeControlled) { return; }
+       // if (!canBeControlled) { return; }
 
         this.board.Clear(this);
 

@@ -30,7 +30,7 @@ public class TetrisMobileInput : IMobileInputState
         */
 
         MobileButtonsManager.instance.rotate.onClick.AddListener(RotatePiece);
-        MobileButtonsManager.instance.up.onClick.AddListener(()=>HardDropPiece());
+        MobileButtonsManager.instance.up.onClick.AddListener(() => HardDropPiece());
 
         AddButtonListeners(MobileButtonsManager.instance.down, Directions.Down);
         AddButtonListeners(MobileButtonsManager.instance.left, Directions.Left);
@@ -42,6 +42,9 @@ public class TetrisMobileInput : IMobileInputState
 
     public void OnUpdate()
     {
+
+        if (GameManager.instance.state != GameState.Play)
+            return;
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -96,6 +99,7 @@ public class TetrisMobileInput : IMobileInputState
             piece.HorizontalInt = 0;
             piece.VerticalInt = 0;
         }
+
     }
     void HardDropPiece(bool useDistance = false)
     {
@@ -106,7 +110,7 @@ public class TetrisMobileInput : IMobileInputState
 
             if (distance > 1000.0f)
             {
-              piece.shouldHardDrop = true;
+                piece.shouldHardDrop = true;
             }
         }
         else

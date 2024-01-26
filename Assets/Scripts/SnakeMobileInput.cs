@@ -9,10 +9,10 @@ public class SnakeMobileInput : IMobileInputState
     float width, height;
     Vector2 startPosition, endPosition;
     //ButtonsManager buttonsManager;
-    public SnakeMobileInput(Snake snake=null)
+    public SnakeMobileInput(Snake snake = null)
     {
         this.snake = snake;
-       
+
     }
 
     public void OnBeginState()
@@ -32,9 +32,11 @@ public class SnakeMobileInput : IMobileInputState
 
     public void OnUpdate()
     {
+        if (GameManager.instance.state != GameState.Play)
+            return;
         if (Input.touchCount > 0)
         {
-           snake.FirstInputGiven = true;
+            snake.FirstInputGiven = true;
             Touch touch = Input.GetTouch(0);
 
             if (touch.phase == TouchPhase.Began)
@@ -69,10 +71,11 @@ public class SnakeMobileInput : IMobileInputState
                 //cube.position = position;
             }
         }
+
     }
 
     void MobileInputUp() => snake.GridMoveDirection = Vector2Int.up;
-   // void exemplo() { snake.GridMoveDirection = Vector2Int.up; }
+    // void exemplo() { snake.GridMoveDirection = Vector2Int.up; }
     void MobileInputDown() => snake.GridMoveDirection = Vector2Int.down;
     void MobileInputLeft() => snake.GridMoveDirection = Vector2Int.left;
     void MobileInputRight() => snake.GridMoveDirection = Vector2Int.right;

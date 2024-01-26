@@ -123,6 +123,7 @@ public class Snake : MonoBehaviour
 
     private void Update()
     {
+       
         //for debug purposes:
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -135,7 +136,8 @@ public class Snake : MonoBehaviour
         }
 
         //movement handling:
-        if (!canBeControlled) { return; }
+        //if (!canBeControlled) { return; } 
+        if(GameManager.instance.state != GameState.Play) { return; }
         HandleInput();
         HandleGridMovement();
 
