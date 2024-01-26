@@ -136,8 +136,9 @@ public class Snake : MonoBehaviour
         }
 
         //movement handling:
-        //if (!canBeControlled) { return; } 
         if(GameManager.instance.state != GameState.Play) { return; }
+        if (!canBeControlled) { return; } 
+        
         HandleInput();
         HandleGridMovement();
 

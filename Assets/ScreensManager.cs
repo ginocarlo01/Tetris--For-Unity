@@ -10,12 +10,13 @@ public class ScreensManager : MonoBehaviour
     string defaultScreen;
     private void Start()
     {
+        if (screens.Length > 0)
+        {
         foreach(GameObject i in screens) 
         {
             i.SetActive(false);
         }
-        if (screens.Length > 0)
-        {
+        
             EnableScreen(defaultScreen);
         }
     }

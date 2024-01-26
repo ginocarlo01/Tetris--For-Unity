@@ -2650,7 +2650,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   screens:
   - {fileID: 776472172}
-  defaultScreen: Menu
+  - {fileID: 174417555}
+  - {fileID: 1601863937}
+  - {fileID: 701456223}
+  defaultScreen: Default
 --- !u!1 &776472172
 GameObject:
   m_ObjectHideFlags: 0

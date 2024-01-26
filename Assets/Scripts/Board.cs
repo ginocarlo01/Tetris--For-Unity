@@ -124,8 +124,8 @@ public class Board : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.instance.state != GameState.Play) { return; }
-        //if (isPaused) { return; }
+        //if (GameManager.instance.state != GameState.Play) { return; }
+        if (isPaused) { return; }
 
         if (choosingRandomPiece)
         {
