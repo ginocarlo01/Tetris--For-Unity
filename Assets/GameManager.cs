@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         screensManager  =  FindObjectOfType<ScreensManager>();
-        state = GameState.Play;
+        state = GameState.Menu;
     }
     public void GameOver()
     {
@@ -43,5 +43,12 @@ public class GameManager : MonoBehaviour
         state = GameState.Menu;
         if (screensManager != null)
             screensManager.EnableScreen("MenuSreen");
+    }
+
+    public void PauseGame()
+    {
+        state = GameState.Pause;
+        if (screensManager != null)
+            screensManager.EnableScreen("PauseScreen");
     }
 }

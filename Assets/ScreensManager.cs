@@ -12,10 +12,10 @@ public class ScreensManager : MonoBehaviour
     {
         if (screens.Length > 0)
         {
-        foreach(GameObject i in screens) 
+        /*foreach(GameObject i in screens) 
         {
             i.SetActive(false);
-        }
+        }*/
         
             EnableScreen(defaultScreen);
         }
@@ -25,11 +25,15 @@ public class ScreensManager : MonoBehaviour
     {
         for(int i = 0; i < screens.Length; i++)
         {
-            screens[i].SetActive(false);
+            
 
             if(screens[i].name == name) 
             {
                 screens[i].SetActive(true);
+            }
+            else
+            {
+                screens[i].SetActive(false);
             }
         }
     }
