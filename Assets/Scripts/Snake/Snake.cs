@@ -104,8 +104,8 @@ public class Snake : MonoBehaviour
         nextMoveDirection = new Vector2Int(0, 0);
         GridMoveDirection = new Vector2Int(0, 0); //default movement: zero
 
-
         
+
 
         //snakeBodySize = 0;
         firstInputGiven = false;
@@ -113,7 +113,10 @@ public class Snake : MonoBehaviour
         snakeMovePositionList = new List<Vector2Int>();
 
     }
-
+    public void ResetSnakeSize()
+    {
+        snakeBodySize = 0;
+    }
     public void ChangeInputToSnake()
     {
         MobileButtonsManager.instance.CurrState = new SnakeMobileInput(this);

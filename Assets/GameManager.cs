@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public enum GameState
 {
+    None,
     Pause,
     Play,
     GameOver,
@@ -13,16 +15,37 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
+    Snake snake;
     //[SerializeField]
     //GameObject gameOverScreen;
     ScreensManager screensManager;
     public static GameManager instance;
     public GameState state;
+    [SerializeField]
+    InitialGame initial;
+    [SerializeField]
+    bool fals;
     private void Awake()
     {
         instance = this;
+   
+
+        //instance = this;
+        snake = FindObjectOfType<Snake>();  
         screensManager  =  FindObjectOfType<ScreensManager>();
-        state = GameState.Menu;
+        fals = initial.Initial;
+
+        /*if (!fals)
+        {
+            Debug.Log("Menu");
+            Menu();
+      
+        }*/
+        if(fals)
+        {
+            Debug.Log("Play");
+            PlayGame();
+        }
     }
     public void GameOver()
     {
@@ -36,10 +59,24 @@ public class GameManager : MonoBehaviour
         state = GameState.Play;
         if (screensManager != null)
             screensManager.EnableScreen("GameScreen");
+        //Snake snake = FindObjectOfType<Snake>();
+        //snake.RestartSnake();
     }
+    public void RestartGame()
+    {
+        //snake.ResetSnakeSize();
+        //snake.RestartSnake();
+        //snake.ActivateSnake();
 
+        //state = GameState.Play;
+        //if (screensManager != null)
+        // screensManager.EnableScreen("GameScreen");
+        initial.Initial = true;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("SnakeTetris");
+    }
     public void Menu()
     {
+        //initial.Initial = false;
         state = GameState.Menu;
         if (screensManager != null)
             screensManager.EnableScreen("MenuSreen");
