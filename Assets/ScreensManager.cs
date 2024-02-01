@@ -8,6 +8,35 @@ public class ScreensManager : MonoBehaviour
     GameObject[] screens;
     [SerializeField]
     string defaultScreen;
+    [Header("Debug")]
+    [SerializeField]
+    string debugScreen;
+    [SerializeField]
+    bool enableDebugScreen;
+    [SerializeField]
+    bool disableScreen;
+    [SerializeField]
+    bool enableDefaultScreen;
+    private void OnValidate()
+    {
+        if (disableScreen)
+        {
+            DisableScreen();
+            disableScreen = false;
+        }
+
+        if (enableDefaultScreen)
+        {
+            EnableScreen(defaultScreen);
+            enableDefaultScreen = false;
+        }
+
+        if (enableDebugScreen)
+        {
+            EnableScreen(debugScreen);
+            enableDebugScreen = false;
+        }
+    }
     private void Start()
     {
         if (screens.Length > 0)
@@ -35,6 +64,14 @@ public class ScreensManager : MonoBehaviour
             {
                 screens[i].SetActive(false);
             }
+        }
+    }
+
+    void DisableScreen()
+    {
+        foreach (GameObject i in screens)
+        {
+            i.SetActive(false);
         }
     }
 }
