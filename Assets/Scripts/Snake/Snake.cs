@@ -49,13 +49,13 @@ public class Snake : MonoBehaviour
     private Signal lostSnake;
     [SerializeField]
     private Signal winSnake;
-
+    ScoreManager scoreManager;
     [Header("Debu")]
     [SerializeField]
     bool imortal;
     [SerializeField]
     bool noWin;
-
+    
     public Vector2Int GridMoveDirection { get => gridMoveDirection; set => gridMoveDirection = value; }
     public bool FirstInputGiven { get => firstInputGiven; set => firstInputGiven = value; }
 
@@ -95,6 +95,8 @@ public class Snake : MonoBehaviour
         MobileButtonsManager.instance.CurrState = new SnakeMobileInput(this);
 
         MobileButtonsManager.instance.CurrState.OnBeginState();
+
+        scoreManager = ScoreManager.instance;
     }
   
     public void RestartSnake()
@@ -339,9 +341,10 @@ public class Snake : MonoBehaviour
             bool snakeAteFood = levelGrid.TrySnakeEatFood(gridPosition);
             if (snakeAteFood)
             {
+
                 snakeBodySize++;
                 qtyFoodEaten++;
-
+                scoreManager.UpdateScore(1);
                 if (qtyFoodEaten >= maxSnakeBodySize)
                 {
                     HandleVictory();

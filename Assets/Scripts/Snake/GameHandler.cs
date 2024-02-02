@@ -6,6 +6,7 @@ using CodeMonkey.Utils;
 
 public class GameHandler : MonoBehaviour
 {
+    //ScoreManager scoreManager;
     private LevelGrid levelGrid;
 
     [SerializeField] private Snake snake;
@@ -23,9 +24,11 @@ public class GameHandler : MonoBehaviour
         snake.Setup(levelGrid, width, height);
         levelGrid.Setup(snake);
     }
+    
     public void DestroySnakeFood()
     {
         levelGrid.DestroyFood();
+        //scoreManager.UpdateScore(1);
     }
 
     public void SpawnSnakeFood()

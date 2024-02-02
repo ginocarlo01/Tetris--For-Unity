@@ -73,6 +73,7 @@ public class Board : MonoBehaviour
     //singleton:
     public static Board instance;
 
+    ScoreManager scoreManager;
     public RectInt Bounds
     {
         get
@@ -117,6 +118,7 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
+        scoreManager = scoreManager;
         SetNextPiece();
         SpawnPiece(nextPiece.data);
         
@@ -395,13 +397,14 @@ public class Board : MonoBehaviour
 
         pauseSignal.Raise();
 
-        UIManager uiMan = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();
+        //UIManager uiMan = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();
+        UIManager uiMan = FindObjectOfType<UIManager>();
 
-        if (ScoreManager.instance.GetScore() > JsonReadWriteSystem.INSTANCE.playerData.MaxScore)
+        if (scoreManager.GetScore() > JsonReadWriteSystem.INSTANCE.playerData.MaxScore)
         {
-            JsonReadWriteSystem.INSTANCE.playerData.MaxScore = ScoreManager.instance.GetScore();
+            JsonReadWriteSystem.INSTANCE.playerData.MaxScore = scoreManager.GetScore();
             
-            uiMan.resultsTxt.text = "New high score: " + ScoreManager.instance.GetScore().ToString() + ", congratulations!";
+            uiMan.resultsTxt.text = "New high score: " + scoreManager.GetScore().ToString() + ", congratulations!";
             string hexColor = "#5D9300";
             Color textColor;
             if (UnityEngine.ColorUtility.TryParseHtmlString(hexColor, out textColor))
@@ -509,12 +512,12 @@ public class Board : MonoBehaviour
             if (rowsCleaned < qtyLinesForTetris)
             {
 
-                ScoreManager.instance.UpdateScore(upScore * rowsCleaned);
+                scoreManager.UpdateScore(upScore * rowsCleaned);
                 SoundManager.instance.PlaySound(cleanLineSFX);
             }
             else
             {
-                ScoreManager.instance.UpdateScore(tetrisScore);
+                scoreManager.UpdateScore(tetrisScore);
                 SoundManager.instance.PlaySound(cleanTetrisSFX);
             }
         }
