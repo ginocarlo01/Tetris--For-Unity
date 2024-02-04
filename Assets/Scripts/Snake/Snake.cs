@@ -34,6 +34,14 @@ public class Snake : MonoBehaviour
     private bool canBeControlled = false;
     private bool snakeEaterMode = false;
 
+    [Header("The variables below is to set the score points given to each mode")]
+    [Tooltip("This is for when the snake eats a food")]
+    [SerializeField]
+    int snakeScorePoint;
+    [Tooltip("This is for when the snake eats a tetris piece")]
+    [SerializeField]
+    int snakeEaterScorePoint;
+    
     //Grid data:
     
     private Vector2Int gridMoveDirection;
@@ -279,6 +287,7 @@ public class Snake : MonoBehaviour
                 if (snakeEaterMode)
                 {
                     Board.instance.CleanCell(gridPosition.x, gridPosition.y - initGridPos.y);
+                    scoreManager.UpdateScore(snakeEaterScorePoint);
                 }
                 else
                 {
@@ -344,7 +353,7 @@ public class Snake : MonoBehaviour
 
                 snakeBodySize++;
                 qtyFoodEaten++;
-                scoreManager.UpdateScore(1);
+                scoreManager.UpdateScore(snakeScorePoint);
                 if (qtyFoodEaten >= maxSnakeBodySize)
                 {
                     HandleVictory();

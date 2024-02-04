@@ -3722,6 +3722,8 @@ MonoBehaviour:
   maxSnakeBodySize: 2
   gridMoveTimerMax: 0.2
   joystick: {fileID: 373158452}
+  snakeScorePoint: 1
+  snakeEaterScorePoint: 1
   lostSnake: {fileID: 11400000, guid: bb4ba2373fb6b8445b3d1b9db65203f3, type: 2}
   winSnake: {fileID: 11400000, guid: 4f465e4ca0d40004c923a88559d41852, type: 2}
   imortal: 0
@@ -7861,6 +7863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   initial: {fileID: 11400000, guid: 9a78b2eaf4242b949bde852b74a326d7, type: 2}
+  fals: 0
 --- !u!4 &1698263997
 Transform:
   m_ObjectHideFlags: 0
