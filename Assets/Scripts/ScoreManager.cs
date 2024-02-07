@@ -8,7 +8,7 @@ public class ScoreManager : MonoBehaviour
 
     private UIManager gameController;
 
-    private int score;
+    private int score, maxScore;
 
     private bool updatedHighScore;
 
@@ -19,6 +19,7 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreText();
 
         UpdateMaxScoreText();
+        maxScore = JsonReadWriteSystem.INSTANCE.playerData.MaxScore;
     }
 
     private void Awake()
@@ -47,7 +48,7 @@ public class ScoreManager : MonoBehaviour
 
     void UpdateMaxScoreText()
     {
-        gameController.maxScoreText.text = "Best: " + JsonReadWriteSystem.INSTANCE.playerData.MaxScore;
+        gameController.maxScoreText.text = "Best: " + score;//JsonReadWriteSystem.INSTANCE.playerData.MaxScore;
     }
 
     void UpdateHighScoreTxt()
@@ -59,4 +60,6 @@ public class ScoreManager : MonoBehaviour
     {
         return score;
     }
+    public int MaxScore { get => maxScore; set => maxScore = value; }
+    //public int MaxScore1 { get => maxScore; set => maxScore = value; }
 }

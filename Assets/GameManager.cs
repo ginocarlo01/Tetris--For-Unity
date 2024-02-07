@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -88,4 +89,10 @@ public class GameManager : MonoBehaviour
         if (screensManager != null)
             screensManager.EnableScreen("PauseScreen");
     }
+
+    private void OnApplicationQuit()
+    {
+        
+    }
+
 }

@@ -7,6 +7,7 @@ public class JsonReadWriteSystem : MonoBehaviour
 {
     [SerializeField] private string fileName;
 
+    //[SerializeField]
     public PlayerData playerData;
 
     public static JsonReadWriteSystem INSTANCE;
@@ -32,14 +33,12 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.I))
         {
             ResetData();
         }
-
-       
-
-        
+#endif
     }
 
     private void WriteToFile(string filename, string jsonData)

@@ -383,6 +383,7 @@ public class Board : MonoBehaviour
 
     private void GameOver()
     {
+
 #if UNITY_EDITOR
         Debug.Log("Game Over");
         //Time.timeScale = 0;
@@ -399,40 +400,44 @@ public class Board : MonoBehaviour
 
         //UIManager uiMan = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();
         UIManager uiMan = FindObjectOfType<UIManager>();
-
-        if (scoreManager.GetScore() > JsonReadWriteSystem.INSTANCE.playerData.MaxScore)
+        if (scoreManager == null) { Debug.LogWarning("ScoreManager é nulo"); scoreManager = ScoreManager.instance; }
+        if (scoreManager != null)
         {
-            JsonReadWriteSystem.INSTANCE.playerData.MaxScore = scoreManager.GetScore();
-            
-            uiMan.resultsTxt.text = "New high score: " + scoreManager.GetScore().ToString() + ", congratulations!";
-            string hexColor = "#5D9300";
-            Color textColor;
-            if (UnityEngine.ColorUtility.TryParseHtmlString(hexColor, out textColor))
+            Debug.LogWarning("ScoreManager n é mais nulo");
+            if (scoreManager.GetScore() > scoreManager.MaxScore)//JsonReadWriteSystem.INSTANCE.playerData.MaxScore)
             {
-                // Assign the color to the text component
-                uiMan.resultsTxt.color = textColor;
+                //JsonReadWriteSystem.INSTANCE.playerData.MaxScore
+                scoreManager.MaxScore = scoreManager.GetScore();
+
+                uiMan.resultsTxt.text = "New high score: " + scoreManager.GetScore().ToString() + ", congratulations!";
+                string hexColor = "#5D9300";
+                Color textColor;
+                if (UnityEngine.ColorUtility.TryParseHtmlString(hexColor, out textColor))
+                {
+                    // Assign the color to the text component
+                    uiMan.resultsTxt.color = textColor;
+                }
+                else
+                {
+                    Debug.LogError("Invalid hexadecimal color code: " + hexColor);
+                }
             }
             else
             {
-                Debug.LogError("Invalid hexadecimal color code: " + hexColor);
+                uiMan.resultsTxt.text = "You didn't get a new high score :(. Your best was: " + scoreManager.MaxScore; // JsonReadWriteSystem.INSTANCE.playerData.MaxScore.ToString();
+                string hexColor = "#EC483C";
+                Color textColor;
+                if (UnityEngine.ColorUtility.TryParseHtmlString(hexColor, out textColor))
+                {
+                    // Assign the color to the text component
+                    uiMan.resultsTxt.color = textColor;
+                }
+                else
+                {
+                    Debug.LogError("Invalid hexadecimal color code: " + hexColor);
+                }
             }
         }
-        else
-        {
-            uiMan.resultsTxt.text = "You didn't get a new high score :(. Your best was: " + JsonReadWriteSystem.INSTANCE.playerData.MaxScore.ToString();
-            string hexColor = "#EC483C";
-            Color textColor;
-            if (UnityEngine.ColorUtility.TryParseHtmlString(hexColor, out textColor))
-            {
-                // Assign the color to the text component
-                uiMan.resultsTxt.color = textColor;
-            }
-            else
-            {
-                Debug.LogError("Invalid hexadecimal color code: " + hexColor);
-            }
-        }
-
         JsonReadWriteSystem.INSTANCE.Save();
         GameManager.instance.GameOver();
     }
@@ -511,7 +516,7 @@ public class Board : MonoBehaviour
         {
             if (rowsCleaned < qtyLinesForTetris)
             {
-
+                Debug.Log(scoreManager);
                 scoreManager.UpdateScore(upScore * rowsCleaned);
                 SoundManager.instance.PlaySound(cleanLineSFX);
             }
